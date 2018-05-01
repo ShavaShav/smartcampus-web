@@ -9,7 +9,21 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { events: [] };
+    this.state = { 
+      currentUser: null,
+      events: [] 
+    };
+
+    this.setCurrentUser = this.setCurrentUser.bind(this);
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('token') !== null) {
+      api.User.current()
+        .then((response) => {
+          this.setCurrentUser(response.body.user);
+        });
+    }
   }
 
   componentDidMount() {
@@ -25,10 +39,22 @@ class App extends Component {
       });
   }
 
+  // Clears current user if null given
+  setCurrentUser(user = null) {
+    if (user && user.token !== null) {
+      this.setState({ currentUser: user });
+      localStorage.setItem('token', user.token);
+    } else {
+      this.setState({ currentUser: null });
+      localStorage.clear();
+    }
+  }
+
   render() {
     return (
       <div>
-        <NavBar/>
+        <NavBar currentUser={this.state.currentUser} 
+                setCurrentUser={this.setCurrentUser}/>
         <Jumbotron>
           <EventFeed events={this.state.events}/>
         </Jumbotron>
