@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Navbar, Nav, NavItem, Modal, Grid } from 'react-bootstrap';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import NewEventForm from './NewEventForm';
 import api from '../api';
 
 class NavBar extends Component {
@@ -9,6 +10,7 @@ class NavBar extends Component {
   static LOGIN     = 1;
   static REGISTER  = 2;
   static LOGOUT    = 3;
+  static NEW_EVENT = 4;
 
   constructor(props) {
     super(props);
@@ -44,6 +46,12 @@ class NavBar extends Component {
           alert("Failed to log out! Try again later.");
         });
         break;
+      case NavBar.NEW_EVENT:
+        this.setState({ 
+          showModal: true,
+          modalType: NavBar.NEW_EVENT
+        });
+        break;
       default:
         // undefined
     }
@@ -59,6 +67,9 @@ class NavBar extends Component {
     if (this.props.currentUser) {
       return (
         <Nav pullRight onSelect={this.handleNavClick}>
+          <NavItem eventKey={NavBar.NEW_EVENT}>
+            New Event
+          </NavItem>
           <NavItem>
             {this.props.currentUser.username}
           </NavItem>
@@ -89,6 +100,9 @@ class NavBar extends Component {
       case NavBar.REGISTER:
         return <RegisterForm setCurrentUser={this.props.setCurrentUser} 
           finish={this.handleCloseModal}/>
+      case NavBar.NEW_EVENT:
+        return <NewEventForm addEvent={this.props.addEvent} 
+          finish={this.handleCloseModal}/>
       default:
         return null;
     }
@@ -114,7 +128,9 @@ class NavBar extends Component {
         <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title>
-              { this.state.modalType === NavBar.LOGIN ? "Login" : "Register" }
+              { this.state.modalType === NavBar.LOGIN ? "Login" : 
+                this.state.modalType === NavBar.REGISTER ? "Register" :
+                "New Event" }
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>

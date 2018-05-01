@@ -15,6 +15,7 @@ class App extends Component {
     };
 
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.addEvent = this.addEvent.bind(this);
   }
 
   componentWillMount() {
@@ -50,11 +51,18 @@ class App extends Component {
     }
   }
 
+  addEvent(event = null) {
+    if (event) {
+      this.setState({ events: [event, ...this.state.events] });
+    }
+  }
+
   render() {
     return (
       <div>
         <NavBar currentUser={this.state.currentUser} 
-                setCurrentUser={this.setCurrentUser}/>
+                setCurrentUser={this.setCurrentUser}
+                addEvent={this.addEvent}/>
         <Jumbotron>
           <EventFeed events={this.state.events}/>
         </Jumbotron>
