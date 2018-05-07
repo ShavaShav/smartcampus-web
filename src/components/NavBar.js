@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Navbar, Nav, NavItem, Modal, Grid } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import NewEventForm from './NewEventForm';
-import api from '../api';
+import { logout, openModal, closeModal  } from '../actions';
 
 class NavBar extends Component {
 
-  static LOGIN     = 1;
-  static REGISTER  = 2;
-  static LOGOUT    = 3;
-  static NEW_EVENT = 4;
+  static LOGIN     = 'LOGIN';
+  static REGISTER  = 'REGISTER';
+  static LOGOUT    = 'LOGOUT';
+  static NEW_EVENT = 'NEW_EVENT';
 
   constructor(props) {
     super(props);
@@ -21,46 +22,26 @@ class NavBar extends Component {
     };
 
     this.handleNavClick = this.handleNavClick.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
     this.renderUserNavItems = this.renderUserNavItems.bind(this);
   }
 
   handleNavClick(eventKey) {
     switch (eventKey) {
       case NavBar.LOGIN:
-        this.setState({ 
-          showModal: true,
-          modalType: NavBar.LOGIN 
-        });
+        this.props.openModal(NavBar.LOGIN);
         break;
       case NavBar.REGISTER:
-        this.setState({ 
-          showModal: true,
-          modalType: NavBar.REGISTER
-        });
+        this.props.openModal(NavBar.REGISTER);
         break;
       case NavBar.LOGOUT:
-        api.User.logout().then((res) => {
-          this.props.setCurrentUser(null);
-        }).catch((err) => {
-          alert("Failed to log out! Try again later.");
-        });
+        this.props.logout();
         break;
       case NavBar.NEW_EVENT:
-        this.setState({ 
-          showModal: true,
-          modalType: NavBar.NEW_EVENT
-        });
+        this.props.openModal(NavBar.NEW_EVENT);
         break;
       default:
         // undefined
     }
-  }
-
-  handleCloseModal(user = null) {
-    this.setState({ 
-      showModal: false
-    });
   }
 
   renderUserNavItems() {
@@ -93,16 +74,13 @@ class NavBar extends Component {
   }
 
   renderModalBody() {
-    switch (this.state.modalType) {
+    switch (this.props.modalType) {
       case NavBar.LOGIN:
-        return <LoginForm setCurrentUser={this.props.setCurrentUser} 
-          finish={this.handleCloseModal}/>
+        return <LoginForm finish={this.props.closeModal}/>
       case NavBar.REGISTER:
-        return <RegisterForm setCurrentUser={this.props.setCurrentUser} 
-          finish={this.handleCloseModal}/>
+        return <RegisterForm finish={this.props.closeModal}/>
       case NavBar.NEW_EVENT:
-        return <NewEventForm addEvent={this.props.addEvent} 
-          finish={this.handleCloseModal}/>
+        return <NewEventForm finish={this.props.closeModal}/>
       default:
         return null;
     }
@@ -125,11 +103,11 @@ class NavBar extends Component {
           </Grid>
         </Navbar>
 
-        <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+        <Modal show={this.props.showModal} onHide={this.props.closeModal}>
           <Modal.Header closeButton>
             <Modal.Title>
-              { this.state.modalType === NavBar.LOGIN ? "Login" : 
-                this.state.modalType === NavBar.REGISTER ? "Register" :
+              { this.props.modalType === NavBar.LOGIN ? "Login" : 
+                this.props.modalType === NavBar.REGISTER ? "Register" :
                 "New Event" }
             </Modal.Title>
           </Modal.Header>
@@ -137,7 +115,7 @@ class NavBar extends Component {
             { this.renderModalBody() }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleCloseModal}>Close</Button>
+            <Button onClick={this.props.closeModal}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -145,4 +123,17 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = state => {
+  return {
+    modalType: state.modal.type,
+    showModal: state.modal.show
+  }
+};
+
+const mapDispatchToProps = {
+  logout,
+  openModal,
+  closeModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

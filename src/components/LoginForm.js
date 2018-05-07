@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import api from '../api';
+import { connect } from 'react-redux';
+import { login } from '../actions';
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
 
@@ -26,13 +27,7 @@ export default class LoginForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    api.User.login(this.state.email, this.state.password)
-      .then((response) => {
-        this.props.setCurrentUser(response.body.user);
-        this.props.finish();
-      }).catch((error) => {
-        alert("Unable to login: " + JSON.stringify(error));
-      });
+    this.props.login(this.state.email, this.state.password);
   }
 
   render() {
@@ -69,3 +64,5 @@ export default class LoginForm extends Component {
     );
   }
 }
+
+export default connect(null, { login })(LoginForm);
