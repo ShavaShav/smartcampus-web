@@ -9,4 +9,7 @@ cache:
 
 script:
   - npm run build
-  - npm test
+  - npm test -- --coverage
+
+after_script:
+  - npm run coveralls

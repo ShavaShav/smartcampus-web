@@ -1,6 +1,7 @@
 # smartcampus-web
 
 [![Build Status](https://travis-ci.org/SmartCampusUWindsor/smartcampus-web.svg?branch=master)](https://travis-ci.org/SmartCampusUWindsor/smartcampus-web)
+[![Coverage Status](https://coveralls.io/repos/github/SmartCampusUWindsor/smartcampus-web/badge.svg)](https://coveralls.io/github/SmartCampusUWindsor/smartcampus-web)
 
 A web client for uWindsor's SmartCampus event social network, built with NodeJS/React.
 
