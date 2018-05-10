@@ -3,6 +3,7 @@ import { Jumbotron } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import NavBar from './NavBar';
 import EventFeed from './EventFeed';
+import FormModal from './FormModal';
 
 import {
   fetchCurrentUser,
@@ -22,6 +23,9 @@ class App extends Component {
   render() {
     return (
       <div>
+        <FormModal 
+          modalType={this.props.modalType} 
+          showModal={this.props.showModal}/>
         <NavBar currentUser={this.props.currentUser}/>
         <Jumbotron>
           <EventFeed events={this.props.events}/>
@@ -34,7 +38,9 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
-    events: state.eventFeed.events
+    events: state.eventFeed.events,
+    modalType: state.modal.type,
+    showModal: state.modal.show
   }
 };
 

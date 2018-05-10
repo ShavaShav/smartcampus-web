@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Navbar, Nav, NavItem, Modal, Grid } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
-import NewEventForm from './NewEventForm';
-import { logout, openModal, closeModal  } from '../actions';
+import { logout, openModal } from '../actions';
 
 class NavBar extends Component {
 
@@ -15,11 +12,6 @@ class NavBar extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      showModal: false,
-      modalType: ''
-    };
 
     this.handleNavClick = this.handleNavClick.bind(this);
     this.renderUserNavItems = this.renderUserNavItems.bind(this);
@@ -73,67 +65,28 @@ class NavBar extends Component {
     }
   }
 
-  renderModalBody() {
-    switch (this.props.modalType) {
-      case NavBar.LOGIN:
-        return <LoginForm finish={this.props.closeModal}/>
-      case NavBar.REGISTER:
-        return <RegisterForm finish={this.props.closeModal}/>
-      case NavBar.NEW_EVENT:
-        return <NewEventForm finish={this.props.closeModal}/>
-      default:
-        return null;
-    }
-  }
-
   render() {
     return (
-      <div>
-        <Navbar inverse fixedTop>
-          <Grid>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <a href="/">SmartCampus</a>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-                { this.renderUserNavItems() }
-            </Navbar.Collapse>
-          </Grid>
-        </Navbar>
-
-        <Modal show={this.props.showModal} onHide={this.props.closeModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              { this.props.modalType === NavBar.LOGIN ? "Login" : 
-                this.props.modalType === NavBar.REGISTER ? "Register" :
-                "New Event" }
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            { this.renderModalBody() }
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.props.closeModal}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+      <Navbar inverse fixedTop>
+        <Grid>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/">SmartCampus</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+              { this.renderUserNavItems() }
+          </Navbar.Collapse>
+        </Grid>
+      </Navbar>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    modalType: state.modal.type,
-    showModal: state.modal.show
-  }
-};
-
 const mapDispatchToProps = {
   logout,
-  openModal,
-  closeModal
+  openModal
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(null, mapDispatchToProps)(NavBar);
