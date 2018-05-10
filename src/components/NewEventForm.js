@@ -32,7 +32,9 @@ class NewEventForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    this.props.postEvent(this.state.title, this.state.date, this.state.time,
+    const timestamp = this.state.date + ' ' + this.state.time + ':00';
+
+    this.props.postEvent(this.state.title, timestamp,
       this.state.location, this.state.link, this.state.body);
   }
 

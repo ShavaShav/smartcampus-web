@@ -1,41 +1,38 @@
 import { combineReducers } from 'redux'
 import {
-  POST_EVENT_SUCCESS,
+  POST_EVENT,
   FETCH_EVENTS,
-  FETCH_EVENTS_SUCCESS,
-  FETCH_EVENTS_FAILURE,
-  LOGIN_SUCCESS,
-  REGISTER_SUCCESS,
-  FETCH_CURRENT_USER_SUCCESS,
-  LOGOUT_SUCCESS,
+  LOGIN,
+  REGISTER,
+  FETCH_CURRENT_USER,
+  LOGOUT,
   OPEN_MODAL,
   CLOSE_MODAL
 } from './actions'
 
 function eventFeed(state = {isFetching: false, events: []}, action) {
   switch (action.type) {
-    case POST_EVENT_SUCCESS:
+    case `${POST_EVENT}_FULFILLED`:
       return {
         ...state,
-        events: [action.event, ...state.events]
+        events: [action.payload.body.event, ...state.events]
       };
-    case FETCH_EVENTS:
+    case `${FETCH_EVENTS}_PENDING`:
       return {
         ...state,
         isFetching: true,
-        events: state.events
       };
-    case FETCH_EVENTS_SUCCESS:
+    case `${FETCH_EVENTS}_FULFILLED`:
       return {
         ...state,
         isFetching: false,
-        events: action.events
+        events: action.payload.body.events
       };
-    case FETCH_EVENTS_FAILURE:
+    case `${FETCH_EVENTS}_REJECTED`:
       return {
         ...state,
         isFetching: false,
-        errors: action.error
+        errors: action.payload.body
       };
     default:
       return state
@@ -44,18 +41,18 @@ function eventFeed(state = {isFetching: false, events: []}, action) {
 
 function currentUser(state = null, action) {
   switch (action.type) {
-    case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
-    case FETCH_CURRENT_USER_SUCCESS:
-      return action.user;
-    case LOGOUT_SUCCESS:
+    case `${LOGIN}_FULFILLED`:
+    case `${REGISTER}_FULFILLED`:
+    case `${FETCH_CURRENT_USER}_FULFILLED`:
+      return action.payload.body.user;
+    case `${LOGOUT}_FULFILLED`:
       return null;
     default:
       return state
   }
 }
 
-function modal(state = {type: 0, show: false}, action) {
+function modal(state = {type: null, show: false}, action) {
   switch (action.type) {
     case OPEN_MODAL:
       return {

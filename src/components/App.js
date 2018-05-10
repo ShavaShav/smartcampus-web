@@ -23,13 +23,13 @@ class App extends Component {
   render() {
     return (
       <div>
-        <FormModal 
-          modalType={this.props.modalType} 
-          showModal={this.props.showModal}/>
         <NavBar currentUser={this.props.currentUser}/>
         <Jumbotron>
           <EventFeed events={this.props.events}/>
         </Jumbotron>
+        <FormModal 
+          modalType={this.props.modalType} 
+          showModal={this.props.showModal}/>
       </div>
     );
   }
