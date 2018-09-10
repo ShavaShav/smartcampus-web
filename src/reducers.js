@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { reducer as notifications } from 'react-notification-system-redux';
 import {
   POST_EVENT,
   FETCH_EVENTS,
@@ -79,5 +80,5 @@ function modal(state = {type: null, show: false}, action) {
 }
 
 export default combineReducers({
-  currentUser, eventFeed, modal
+  currentUser, eventFeed, modal, notifications
 })

@@ -62,10 +62,8 @@ const requests = {
 const User = {
   current: () =>
     requests.get('/user'),
-  login: (email, password) =>
-    requests.post('/user/login', { user: { email, password } }),
-  register: (username, email, password) =>
-    requests.post('/user/register', { user: { username, email, password } })
+  login: (googleIdToken) =>
+    requests.post('/user/login', { googleIdToken: googleIdToken })
 };
 
 const Event = {

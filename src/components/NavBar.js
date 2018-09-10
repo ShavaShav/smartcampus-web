@@ -1,33 +1,25 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { logout, openModal } from '../actions';
+import { Grid, Nav, Navbar, NavItem } from 'react-bootstrap';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { login, logout, openModal } from '../actions';
 
 class NavBar extends Component {
 
-  static LOGIN     = 'LOGIN';
-  static REGISTER  = 'REGISTER';
-  static LOGOUT    = 'LOGOUT';
   static NEW_EVENT = 'NEW_EVENT';
 
   constructor(props) {
     super(props);
 
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
+    
     this.renderUserNavItems = this.renderUserNavItems.bind(this);
   }
 
   handleNavClick(eventKey) {
     switch (eventKey) {
-      case NavBar.LOGIN:
-        this.props.openModal(NavBar.LOGIN);
-        break;
-      case NavBar.REGISTER:
-        this.props.openModal(NavBar.REGISTER);
-        break;
-      case NavBar.LOGOUT:
-        this.props.logout();
-        break;
       case NavBar.NEW_EVENT:
         this.props.openModal(NavBar.NEW_EVENT);
         break;
@@ -36,7 +28,27 @@ class NavBar extends Component {
     }
   }
 
+  handleCloseModal(user = null) {
+    this.setState({ 
+      showModal: false
+    });
+  }
+
+  // Authenticates with our backend using google Id token
+  handleLoginSuccess(googleResponse) {
+    this.props.login(googleResponse.tokenId);
+  }
+
   renderUserNavItems() {
+    // CSS to remove Google signin button styling
+    const googleButtonStyle = {
+      background: 'transparent',
+      color: 'inherit',
+      border: 'none',
+      padding: '0!important',
+      font: 'inherit'
+    }
+
     if (this.props.currentUser) {
       return (
         <Nav pullRight onSelect={this.handleNavClick}>
@@ -44,26 +56,34 @@ class NavBar extends Component {
             New Event
           </NavItem>
           <NavItem>
-            {this.props.currentUser.username}
+            {this.props.currentUser.name}
           </NavItem>
-          <NavItem eventKey={NavBar.LOGOUT}>
-            Logout
+          <NavItem>
+            <GoogleLogout 
+              style={googleButtonStyle}
+              buttonText="Logout"
+              onLogoutSuccess={this.props.logout}
+            />
           </NavItem>
         </Nav>
       );
     } else {
       return (
         <Nav pullRight onSelect={this.handleNavClick}>
-          <NavItem eventKey={NavBar.LOGIN}>
-            Login
-          </NavItem>
-          <NavItem eventKey={NavBar.REGISTER}>
-            Register
+          <NavItem>
+            <GoogleLogin 
+              style={googleButtonStyle}
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              buttonText="Login"
+              onSuccess={this.handleLoginSuccess}
+            />
           </NavItem>
         </Nav>
       );
     }
   }
+
+// F@11TestCampu5
 
   render() {
     return (
@@ -85,6 +105,7 @@ class NavBar extends Component {
 }
 
 const mapDispatchToProps = {
+  login,
   logout,
   openModal
 };
