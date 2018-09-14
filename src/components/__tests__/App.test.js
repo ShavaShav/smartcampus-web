@@ -18,7 +18,7 @@ const store = createStore(
 
 it('renders without crashing', () => {
 
-	// App will make a call to get events
+	// App will make a call to get events. Mock with an empty list
 	fetch.mockResponse(JSON.stringify({events: []}));
 
   const div = document.createElement('div');

@@ -40,6 +40,14 @@ export function closeModal() {
   }
 }
 
+export function logout() {
+  localStorage.clear();
+
+  return {
+    type: LOGOUT
+  }
+}
+
 /*
  * Async Action Creators
  */
@@ -93,17 +101,6 @@ export function register(username, email, password) {
     }).then(res => {
       localStorage.setItem('token', res.value.body.user.token);
       dispatch({ type: CLOSE_MODAL });
-    });
-  }
-}
-
-export function logout() {
-  return dispatch => {
-    dispatch({ 
-      type: LOGOUT,
-      payload: api.User.logout()
-    }).then(res => {
-      localStorage.clear();
     });
   }
 }

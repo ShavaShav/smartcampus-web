@@ -4,6 +4,8 @@ import { Panel  } from 'react-bootstrap';
 class EventCard extends Component {
   render() {
     const event = this.props.event;
+    // Convert ISO datestring to a readable format
+    const dateString = new Date(event.time).toLocaleString();
     return (
       <Panel bsStyle="primary">
         <Panel.Heading>
@@ -15,7 +17,7 @@ class EventCard extends Component {
             <tr>
               <td>
                 <Panel.Body>
-                  <b>{event.time}</b>
+                  <b>{dateString}</b>
                   <br/>
                   {event.location}
                   <br/>
