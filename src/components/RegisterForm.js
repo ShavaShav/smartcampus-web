@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import api from '../api';
+import { connect } from 'react-redux';
+import { register } from '../actions';
 
-export default class RegisterForm extends Component {
+class RegisterForm extends Component {
   constructor(props) {
     super(props);
 
@@ -29,13 +30,7 @@ export default class RegisterForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    api.User.register(this.state.username, this.state.email, this.state.password)
-      .then((response) => {
-        this.props.setCurrentUser(response.body.user);
-        this.props.finish();
-      }).catch((error) => {
-        alert("Unable to register: " + JSON.stringify(error));
-      });
+    this.props.register(this.state.username, this.state.email, this.state.password);
   }
 
   render() {
@@ -80,3 +75,5 @@ export default class RegisterForm extends Component {
     );
   }
 }
+
+export default connect(null, { register })(RegisterForm);

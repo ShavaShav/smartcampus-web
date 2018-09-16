@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import api from '../api';
+import { connect } from 'react-redux';
+import { postEvent } from '../actions';
 
-export default class NewEventForm extends Component {
+class NewEventForm extends Component {
   constructor(props) {
     super(props);
 
@@ -33,16 +34,8 @@ export default class NewEventForm extends Component {
 
     const timestamp = this.state.date + ' ' + this.state.time + ':00';
 
-    api.Event.create(
-      this.state.title, timestamp, 
-      this.state.location, this.state.link, 
-      this.state.body)
-        .then((response) => {
-          this.props.addEvent(response.body.event);
-          this.props.finish();
-        }).catch((error) => {
-          alert("Unable to create event!: " + JSON.stringify(error));
-        });
+    this.props.postEvent(this.state.title, timestamp,
+      this.state.location, this.state.link, this.state.body);
   }
 
   render() {
@@ -111,3 +104,5 @@ export default class NewEventForm extends Component {
     );
   }
 }
+
+export default connect(null, { postEvent })(NewEventForm);
