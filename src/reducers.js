@@ -10,6 +10,12 @@ import {
   CLOSE_MODAL
 } from './actions'
 
+/**
+ * Reducers define how state is changed, given an action.
+ * For ex. when user is logged in/out (action), we toggle currentUser (state)
+ * When an action is dispatched in redux, these functions intercept.
+ */
+
 function eventFeed(state = {isFetching: false, events: []}, action) {
   switch (action.type) {
     case `${POST_EVENT}_FULFILLED`:
@@ -45,8 +51,8 @@ function currentUser(state = null, action) {
     case `${REGISTER}_FULFILLED`:
     case `${FETCH_CURRENT_USER}_FULFILLED`:
       return action.payload.body.user;
-    case `${LOGOUT}_FULFILLED`:
-      return null;
+    case LOGOUT:
+      return null; // no user
     default:
       return state
   }

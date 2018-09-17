@@ -64,8 +64,6 @@ const User = {
     requests.get('/user'),
   login: (email, password) =>
     requests.post('/user/login', { user: { email, password } }),
-  logout: () =>
-    requests.post('/user/logout'),
   register: (username, email, password) =>
     requests.post('/user/register', { user: { username, email, password } })
 };

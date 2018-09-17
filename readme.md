@@ -1,11 +1,11 @@
 # smartcampus-web
 
-[![Build Status](https://travis-ci.org/SmartCampusUWindsor/smartcampus-web.svg?branch=master)](https://travis-ci.org/SmartCampusUWindsor/smartcampus-web)
-[![Coverage Status](https://coveralls.io/repos/github/SmartCampusUWindsor/smartcampus-web/badge.svg)](https://coveralls.io/github/SmartCampusUWindsor/smartcampus-web)
+[![pipeline status](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/badges/master/pipeline.svg)](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/commits/master)
+[![coverage report](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/badges/master/coverage.svg)](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/commits/master)
 
 A web client for uWindsor's SmartCampus event social network, built with NodeJS/React.
 
-See [the wiki](https://github.com/SmartCampusUWindsor/smartcampus-web/wiki/) for Developer information.
+See [the wiki](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/wikis) for Developer information.
 
 See the following for framework information:
 * [NodeJS documentation](https://nodejs.org/dist/latest-v8.x/docs/api/)

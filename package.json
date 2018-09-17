@@ -20,11 +20,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "coverage": "react-scripts test --env=jsdom --coverage",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "coveralls": "^3.0.1",
     "jest-fetch-mock": "^1.5.0",
     "jest-localstorage-mock": "^2.2.0",
     "redux-devtools": "^3.4.1"
