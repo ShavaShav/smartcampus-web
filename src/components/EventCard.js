@@ -19,7 +19,7 @@ class EventCard extends Component {
                 <Panel.Body>
                   <b>{dateString}</b>
                   <br/>
-                  {event.location}
+                    {event.location}
                   <br/>
                   <a href={event.link}>{event.link}</a>
                 </Panel.Body>

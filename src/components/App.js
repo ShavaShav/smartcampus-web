@@ -35,6 +35,7 @@ class App extends Component {
   }
 }
 
+// Global State
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,

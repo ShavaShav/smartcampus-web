@@ -71,7 +71,7 @@ class NavBar extends Component {
         <Grid>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/">SmartCampus</a>
+              <a href="./">SmartCampus</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>

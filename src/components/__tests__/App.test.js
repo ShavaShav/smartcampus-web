@@ -11,16 +11,16 @@ import rootReducer from '../../reducers';
 const store = createStore(
   rootReducer,
   applyMiddleware(
-  	thunkMiddleware,
-  	promiseMiddleware()
+    thunkMiddleware,
+    promiseMiddleware()
   )
 );
 
 it('renders without crashing', () => {
+  // App will make a call to get events. Mock with an empty list
+  fetch.mockResponse(JSON.stringify({events: []}));
 
-	// App will make a call to get events. Mock with an empty list
-	fetch.mockResponse(JSON.stringify({events: []}));
-
+  // Load the app
   const div = document.createElement('div');
   ReactDOM.render(<Provider store={store}><ConnectedApp /></Provider>, div);
   ReactDOM.unmountComponentAtNode(div);
