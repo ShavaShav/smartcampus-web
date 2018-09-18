@@ -11,6 +11,9 @@ import {
 } from './actions'
 
 /**
+ * Refs
+ * https://redux.js.org/basics/reducers
+ * 
  * Reducers define how state is changed, given an action.
  * For ex. when user is logged in/out (action), we toggle currentUser (state)
  * When an action is dispatched in redux, these functions intercept.

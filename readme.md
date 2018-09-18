@@ -1,7 +1,7 @@
 # smartcampus-web
 
-[![pipeline status](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/badges/master/pipeline.svg)](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/commits/master)
-[![coverage report](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/badges/master/coverage.svg)](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/commits/master)
+[![pipeline status](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/badges/master/pipeline.svg)](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/pipelines)
+[![coverage report](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/badges/master/coverage.svg)](https://gitlab.cs.uwindsor.ca/smart-campus/smartcampus-web/-/jobs)
 
 A web client for uWindsor's SmartCampus event social network, built with NodeJS/React.
 

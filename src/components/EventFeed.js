@@ -4,16 +4,16 @@ import EventCard from './EventCard';
 
 class EventFeed extends Component {
   render() {
-  	const eventCards = [];
+    const eventCards = [];
 
-	  this.props.events.forEach((event) => {
-		  eventCards.push(<EventCard key={event.id} event={event}/>);
+    this.props.events.forEach((event) => {
+      eventCards.push(<EventCard key={event.id} event={event}/>);
     });
 
     return (
-	    <Grid>
-	    	{eventCards}
-	    </Grid>
+      <Grid>
+        {eventCards}
+      </Grid>
     );
   }
 }

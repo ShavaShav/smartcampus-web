@@ -1,5 +1,11 @@
 import api from './api';
 
+/**
+ * Refs
+ * https://redux.js.org/basics/actions
+ * https://www.npmjs.com/package/redux-promise-middleware
+ */
+
 /*
  * Action Types
  */
