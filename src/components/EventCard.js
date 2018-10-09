@@ -10,7 +10,7 @@ class EventCard extends Component {
       <Panel bsStyle="primary">
         <Panel.Heading>
           <Panel.Title componentClass="h3">{event.title}</Panel.Title>
-          <small>Posted by {event.author.username}</small>
+          <small>Posted by {event.author.name}</small>
         </Panel.Heading>
         <table>
           <tbody>

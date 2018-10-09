@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
+import Notifications from 'react-notification-system-redux';
 import { connect } from 'react-redux';
 import NavBar from './NavBar';
 import EventFeed from './EventFeed';
@@ -30,6 +31,7 @@ class App extends Component {
         <FormModal 
           modalType={this.props.modalType} 
           showModal={this.props.showModal}/>
+        <Notifications notifications={this.props.notifications}/>
       </div>
     );
   }
@@ -41,7 +43,8 @@ const mapStateToProps = state => {
     currentUser: state.currentUser,
     events: state.eventFeed.events,
     modalType: state.modal.type,
-    showModal: state.modal.show
+    showModal: state.modal.show,
+    notifications: state.notifications
   }
 };
 

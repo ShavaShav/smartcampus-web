@@ -1,5 +1,5 @@
 import api from './api';
-
+import { error } from 'react-notification-system-redux';
 /**
  * Refs
  * https://redux.js.org/basics/actions
@@ -87,26 +87,22 @@ export function fetchCurrentUser() {
   }
 }
 
-export function login(email, password) {
+export function login(googleIDToken) {
   return dispatch => {
+    // Call the API
     dispatch({ 
       type: LOGIN,
-      payload: api.User.login(email, password)
+      payload: api.User.login(googleIDToken)
     }).then(res => {
+      // Login successful, save the JWT
       localStorage.setItem('token', res.value.body.user.token);
       dispatch({ type: CLOSE_MODAL });
-    });
-  }
-}
-
-export function register(username, email, password) {
-  return dispatch => {
-    dispatch({ 
-      type: REGISTER,
-      payload: api.User.register(username, email, password)
-    }).then(res => {
-      localStorage.setItem('token', res.value.body.user.token);
-      dispatch({ type: CLOSE_MODAL });
+    }).catch(err => {
+      // Login failed, show an error message
+      // TODO: Check for specific errors, instead of just relaying message.
+      dispatch(
+        error({ title: "Failed to log in", message: err.body.errors.message})
+      );
     });
   }
 }
