@@ -31,7 +31,7 @@ class EventCard extends Component {
           </tbody>
         </table>
         <Panel.Footer style={{textAlign: 'right'}}>
-          <small>Updated at {event.updated_at}</small>
+          <small>Updated at {event.updatedAt}</small>
         </Panel.Footer>
       </Panel>
     );

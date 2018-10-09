@@ -7,6 +7,7 @@ class EventFeed extends Component {
     const eventCards = [];
 
     this.props.events.forEach((event) => {
+      // TODO: use slug ids instead of database ids
       eventCards.push(<EventCard key={event.id} event={event}/>);
     });
 
