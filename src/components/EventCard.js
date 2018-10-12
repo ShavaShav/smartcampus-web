@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel  } from 'react-bootstrap';
+import { Card } from 'semantic-ui-react'
 
 class EventCard extends Component {
   render() {
@@ -7,33 +7,39 @@ class EventCard extends Component {
     // Convert ISO datestring to a readable format
     const dateString = new Date(event.time).toLocaleString();
     return (
-      <Panel bsStyle="primary">
-        <Panel.Heading>
-          <Panel.Title componentClass="h3">{event.title}</Panel.Title>
-          <small>Posted by {event.author.name}</small>
-        </Panel.Heading>
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <Panel.Body>
-                  <b>{dateString}</b>
-                  <br/>
-                    {event.location}
-                  <br/>
-                  <a href={event.link}>{event.link}</a>
-                </Panel.Body>
-              </td>
-              <td>
-                <Panel.Body>{event.body}</Panel.Body>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <Panel.Footer style={{textAlign: 'right'}}>
+      <Card>
+        <Card.Content>
+          <Card.Header>{event.title}</Card.Header>
+          <Card.Meta>
+            <small>Posted by {event.author.name}</small>
+          </Card.Meta>
+          <Card.Meta>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <Card.Description>
+                      <center>
+                        {dateString}
+                        <br/>
+                        at <b>{event.location}</b>
+                        <br/>
+                        <a href={event.link}>{event.link}</a>
+                      </center>
+                    </Card.Description>
+                  </td>
+                  <td>
+                    <Card.Description>{event.body}</Card.Description>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Card.Meta>
+        </Card.Content>
+        <Card.Content extra style={{textAlign: 'right'}}>
           <small>Updated at {event.updatedAt}</small>
-        </Panel.Footer>
-      </Panel>
+        </Card.Content>
+      </Card>
     );
   }
 }

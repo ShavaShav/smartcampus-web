@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { openModal, closeModal  } from '../actions';
 
@@ -29,18 +29,16 @@ class FormModal extends Component {
 
   render() {
     return (
-      <Modal show={this.props.showModal} onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            { this.getTitle() }
-          </Modal.Title>
+      <Modal open={this.props.showModal} onClose={this.props.closeModal}>
+        <Modal.Header>
+          { this.getTitle() }
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Content>
           { this.renderModalBody() }
-        </Modal.Body>
-        <Modal.Footer>
+        </Modal.Content>
+        <Modal.Actions>
           <Button onClick={this.props.closeModal}>Close</Button>
-        </Modal.Footer>
+        </Modal.Actions>
       </Modal>
     );
   }

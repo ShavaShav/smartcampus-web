@@ -5,9 +5,10 @@
   "homepage": ".",
   "dependencies": {
     "ajv": "^6.4.0",
-    "bootstrap": "^3.3.7",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
     "react": "^16.3.2",
-    "react-bootstrap": "^0.32.1",
+    "react-datepicker": "^1.6.0",
     "react-dom": "^16.3.2",
     "react-google-login": "^3.2.1",
     "react-notification-system": "^0.2.17",
@@ -17,7 +18,9 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.1.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-css": "^2.4.0",
+    "semantic-ui-react": "^0.82.5"
   },
   "scripts": {
     "start": "react-scripts start",

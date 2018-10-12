@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid } from 'react-bootstrap';
+import { Grid } from 'semantic-ui-react';
 import EventCard from './EventCard';
 
 class EventFeed extends Component {
@@ -12,7 +12,7 @@ class EventFeed extends Component {
     });
 
     return (
-      <Grid>
+      <Grid relaxed='very' columns='equal' verticalAlign='middle' centered>
         {eventCards}
       </Grid>
     );

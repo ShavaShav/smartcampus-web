@@ -1,31 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { Container, Menu } from 'semantic-ui-react'
 import { login, logout, openModal } from '../actions';
+import FormModal from './FormModal';
 
 class NavBar extends Component {
-
-  static NEW_EVENT = 'NEW_EVENT';
 
   constructor(props) {
     super(props);
 
     this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-    this.handleNavClick = this.handleNavClick.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);    
+    this.handleNewEventClick = this.handleNewEventClick.bind(this);
     
     this.renderUserNavItems = this.renderUserNavItems.bind(this);
   }
 
-  handleNavClick(eventKey) {
-    switch (eventKey) {
-      case NavBar.NEW_EVENT:
-        this.props.openModal(NavBar.NEW_EVENT);
-        break;
-      default:
-        // undefined
-    }
+  handleNewEventClick() {
+    this.props.openModal(FormModal.NEW_EVENT);
   }
 
   handleCloseModal(user = null) {
@@ -51,55 +44,48 @@ class NavBar extends Component {
 
     if (this.props.currentUser) {
       return (
-        <Nav pullRight onSelect={this.handleNavClick}>
-          <NavItem eventKey={NavBar.NEW_EVENT}>
+        <Menu.Menu position='right'>
+          <Menu.Item onClick={this.handleNewEventClick}>
             New Event
-          </NavItem>
-          <NavItem>
+          </Menu.Item>
+          <Menu.Item>
             {this.props.currentUser.name}
-          </NavItem>
-          <NavItem>
+          </Menu.Item>
+          <Menu.Item onClick={()=>{}}>
             <GoogleLogout 
               style={googleButtonStyle}
               buttonText="Logout"
               onLogoutSuccess={this.props.logout}
             />
-          </NavItem>
-        </Nav>
+          </Menu.Item>
+        </Menu.Menu>
       );
     } else {
       return (
-        <Nav pullRight onSelect={this.handleNavClick}>
-          <NavItem>
+        <Menu.Menu position='right'>
+          <Menu.Item>
             <GoogleLogin 
               style={googleButtonStyle}
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Login"
               onSuccess={this.handleLoginSuccess}
             />
-          </NavItem>
-        </Nav>
+          </Menu.Item>
+        </Menu.Menu>
       );
     }
   }
 
-// F@11TestCampu5
-
   render() {
     return (
-      <Navbar inverse fixedTop>
-        <Grid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="./">SmartCampus</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-              { this.renderUserNavItems() }
-          </Navbar.Collapse>
-        </Grid>
-      </Navbar>
+      <Menu fixed='top' inverted>
+        <Container>
+          <Menu.Item header as='a' to='./'>
+            SmartCampus
+          </Menu.Item>
+          { this.renderUserNavItems() }
+        </Container>
+      </Menu>
     );
   }
 }
