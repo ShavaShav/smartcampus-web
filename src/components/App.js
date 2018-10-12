@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Notifications from 'react-notification-system-redux';
 import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react'
+
 import NavBar from './NavBar';
 import EventFeed from './EventFeed';
 import FormModal from './FormModal';
@@ -23,7 +24,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <NavBar currentUser={this.props.currentUser}/>
         <Container style={{ marginTop: '7em' }}>
           <EventFeed events={this.props.events} />
@@ -32,7 +33,7 @@ class App extends Component {
           modalType={this.props.modalType} 
           showModal={this.props.showModal}/>
         <Notifications notifications={this.props.notifications}/>
-      </div>
+      </Container>
     );
   }
 }

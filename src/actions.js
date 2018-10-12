@@ -1,5 +1,7 @@
-import api from './api';
 import { error } from 'react-notification-system-redux';
+
+import api from './api';
+
 /**
  * Refs
  * https://redux.js.org/basics/actions

@@ -1,41 +1,42 @@
+import moment from 'moment';
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react'
+import { Card, Container, Grid, Header } from 'semantic-ui-react'
+import styles from './styles'
 
 class EventCard extends Component {
+
   render() {
     const event = this.props.event;
-    // Convert ISO datestring to a readable format
-    const dateString = new Date(event.time).toLocaleString();
+    const eventMoment = moment(event.time);
     return (
-      <Card>
-        <Card.Content>
-          <Card.Header>{event.title}</Card.Header>
-          <Card.Meta>
+      <Card link>
+        <Card.Content style={styles.BlueBackground}>
+          <Card.Header style={styles.WhiteText}>{event.title}</Card.Header>
+          <Card.Meta style={styles.WhiteText}>
             <small>Posted by {event.author.name}</small>
           </Card.Meta>
+        </Card.Content>
+        <Card.Content>
           <Card.Meta>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <Card.Description>
-                      <center>
-                        {dateString}
-                        <br/>
-                        at <b>{event.location}</b>
-                        <br/>
-                        <a href={event.link}>{event.link}</a>
-                      </center>
-                    </Card.Description>
-                  </td>
-                  <td>
-                    <Card.Description>{event.body}</Card.Description>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <Grid relaxed>
+              <Grid.Column style={{flex: 0.25, textAlign: 'center'}}>
+                  <Header as='p'>
+                    { eventMoment.format('MMM') }
+                  </Header>
+                  <Header as='h2'>
+                    { eventMoment.format('D') }
+                  </Header>
+              </Grid.Column>
+              <Grid.Column style={{flex: 0.75}}>
+                <Container>
+                  <p>{ eventMoment.format('h:mm a') }</p>
+                  <p>{ event.location }</p>
+                </Container>
+              </Grid.Column>
+            </Grid>
           </Card.Meta>
         </Card.Content>
+      {/* TODO: Replace this content area with likes, attendees */}
         <Card.Content extra style={{textAlign: 'right'}}>
           <small>Updated at {event.updatedAt}</small>
         </Card.Content>

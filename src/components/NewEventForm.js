@@ -1,10 +1,12 @@
-import React, { Component } from "react";
-import { Button, Form, Icon } from 'semantic-ui-react'
-import { connect } from 'react-redux';
-import moment from 'moment';
-import { postEvent } from '../actions';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+import moment from 'moment';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
+import { connect } from 'react-redux';
+import { Button, Form, Icon } from 'semantic-ui-react'
+
+import { postEvent } from '../actions';
 
 class NewEventForm extends Component {
   constructor(props) {

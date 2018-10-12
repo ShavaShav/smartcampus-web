@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { Container, Menu } from 'semantic-ui-react'
+
 import { login, logout, openModal } from '../actions';
 import FormModal from './FormModal';
+import styles from './styles';
 
 class NavBar extends Component {
 
@@ -33,15 +35,6 @@ class NavBar extends Component {
   }
 
   renderUserNavItems() {
-    // CSS to remove Google signin button styling
-    const googleButtonStyle = {
-      background: 'transparent',
-      color: 'inherit',
-      border: 'none',
-      padding: '0!important',
-      font: 'inherit'
-    }
-
     if (this.props.currentUser) {
       return (
         <Menu.Menu position='right'>
@@ -53,7 +46,7 @@ class NavBar extends Component {
           </Menu.Item>
           <Menu.Item onClick={()=>{}}>
             <GoogleLogout 
-              style={googleButtonStyle}
+              style={styles.GoogleAuthButton}
               buttonText="Logout"
               onLogoutSuccess={this.props.logout}
             />
@@ -65,7 +58,7 @@ class NavBar extends Component {
         <Menu.Menu position='right'>
           <Menu.Item>
             <GoogleLogin 
-              style={googleButtonStyle}
+              style={styles.GoogleAuthButton}
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Login"
               onSuccess={this.handleLoginSuccess}
@@ -78,7 +71,7 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Menu fixed='top' inverted>
+      <Menu fixed='top' inverted style={styles.BlueBackground}>
         <Container>
           <Menu.Item header as='a' to='./'>
             SmartCampus
