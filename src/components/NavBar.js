@@ -5,7 +5,8 @@ import { Container, Dropdown, Menu } from 'semantic-ui-react'
 
 import { login, logout, openModal } from '../actions';
 import FormModal from './FormModal';
-import styles from './styles';
+
+import styles from './styles.css';
 
 class NavBar extends Component {
 
@@ -44,8 +45,8 @@ class NavBar extends Component {
           <Dropdown item simple text={this.props.currentUser.name}>
             <Dropdown.Menu>
               <Dropdown.Item>
-                <GoogleLogout 
-                  style={styles.GoogleAuthButton}
+                <GoogleLogout
+                  className={styles.googleAuthButton}
                   buttonText="Logout"
                   onLogoutSuccess={this.props.logout}
                 />
@@ -59,7 +60,7 @@ class NavBar extends Component {
         <Menu.Menu position='right'>
           <Menu.Item>
             <GoogleLogin 
-              style={styles.GoogleAuthButton}
+              className={styles.googleAuthButton}
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Login"
               onSuccess={this.handleLoginSuccess}
@@ -72,7 +73,7 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Menu fixed='top' inverted style={styles.BlueBackground}>
+      <Menu fixed='top' inverted className='common-header'>
         <Container>
           <Menu.Item header as='a' to='./'>
             SmartCampus

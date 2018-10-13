@@ -1,0 +1,36 @@
+/*
+ Semantic-UI's CSS will usually win over our css, so if
+ your style isn't displaying, append '!important' to the rule.
+ */
+
+
+/* GLOBAL RULES (loaded in App.js) */
+
+/*https://github.com/Hacker0x01/react-datepicker/issues/1116*/
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.common-header, .event-card-header, .event-card-header > * {
+	background: #4388CC!important;
+    color: white!important;
+}
+
+.common-background {
+	background: #4388CC!important;
+}
+
+.common-background-text {
+	color: white!important;	
+}
+
+/* LOCAL RULES (loaded as modules) */
+
+:local(.googleAuthButton) {
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    padding: 0!important;
+    font: inherit;
+}

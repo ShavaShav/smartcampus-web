@@ -1,7 +1,6 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { Card, Container, Grid, Header } from 'semantic-ui-react'
-import styles from './styles'
 
 class EventCard extends Component {
 
@@ -10,9 +9,9 @@ class EventCard extends Component {
     const eventMoment = moment(event.time);
     return (
       <Card link>
-        <Card.Content style={styles.BlueBackground}>
-          <Card.Header style={styles.WhiteText}>{event.title}</Card.Header>
-          <Card.Meta style={styles.WhiteText}>
+        <Card.Content className='event-card-header'>
+          <Card.Header>{event.title}</Card.Header>
+          <Card.Meta>
             <small>Posted by {event.author.name}</small>
           </Card.Meta>
         </Card.Content>

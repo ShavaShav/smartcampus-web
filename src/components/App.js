@@ -7,6 +7,8 @@ import NavBar from './NavBar';
 import EventFeed from './EventFeed';
 import FormModal from './FormModal';
 
+import './styles.css'; // Global styles loaded here
+
 import {
   fetchCurrentUser,
   fetchEvents

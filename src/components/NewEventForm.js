@@ -70,13 +70,6 @@ class NewEventForm extends Component {
           onChange={this.handleTextChange}/>
           <Form.Field>
             <label>Date</label>
-            {/*https://github.com/Hacker0x01/react-datepicker/issues/1116*/}
-            <style>
-              {`.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
-                padding-left: 0;
-                padding-right: 0;
-              }`}
-            </style>
             <DatePicker
               selected={this.state.time}
               name="time"

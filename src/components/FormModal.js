@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { openModal, closeModal  } from '../actions';
 import NewEventForm from './NewEventForm';
-import styles from './styles';
 
 class FormModal extends Component {
 
@@ -30,8 +29,8 @@ class FormModal extends Component {
 
   render() {
     return (
-      <Modal closeIcon  open={this.props.showModal} onClose={this.props.closeModal}>
-        <Modal.Header style={Object.assign({}, styles.BlueBackground, styles.WhiteText)}>
+      <Modal closeIcon open={this.props.showModal} onClose={this.props.closeModal}>
+        <Modal.Header className='common-header'>
           { this.getTitle() }
         </Modal.Header>
         <Modal.Content>
