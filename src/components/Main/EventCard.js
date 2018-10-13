@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { Card, Container, Grid, Header } from 'semantic-ui-react'
 
 class EventCard extends Component {
@@ -7,8 +8,9 @@ class EventCard extends Component {
   render() {
     const event = this.props.event;
     const eventMoment = moment(event.time);
+
     return (
-      <Card link>
+      <Card as={ Link } to={'/event/'+event.id}>
         <Card.Content className='event-card-header'>
           <Card.Header>{event.title}</Card.Header>
           <Card.Meta>

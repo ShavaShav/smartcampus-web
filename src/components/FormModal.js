@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Modal } from 'semantic-ui-react';
+
+import NewEventForm from './NewEventForm';
 
 import { openModal, closeModal  } from '../actions';
-import NewEventForm from './NewEventForm';
 
 class FormModal extends Component {
 

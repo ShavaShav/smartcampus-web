@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { Container, Dropdown, Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Container, Dropdown, Menu } from 'semantic-ui-react';
+
+import FormModal from './FormModal';
 
 import { login, logout, openModal } from '../actions';
-import FormModal from './FormModal';
 
 import styles from './styles.css';
 
@@ -13,7 +15,6 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
 
-    this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);    
     this.handleNewEventClick = this.handleNewEventClick.bind(this);
     
@@ -22,12 +23,6 @@ class NavBar extends Component {
 
   handleNewEventClick() {
     this.props.openModal(FormModal.NEW_EVENT);
-  }
-
-  handleCloseModal(user = null) {
-    this.setState({ 
-      showModal: false
-    });
   }
 
   // Authenticates with our backend using google Id token
@@ -75,7 +70,7 @@ class NavBar extends Component {
     return (
       <Menu fixed='top' inverted className='common-header'>
         <Container>
-          <Menu.Item header as='a' to='./'>
+          <Menu.Item header as={ Link } to={'/'}>
             SmartCampus
           </Menu.Item>
           { this.renderUserNavItems() }

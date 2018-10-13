@@ -4,7 +4,7 @@
  */
 
 
-/* GLOBAL RULES (loaded in App.js) */
+/* GLOBAL RULES (loaded in Root.js) */
 
 /*https://github.com/Hacker0x01/react-datepicker/issues/1116*/
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
@@ -23,6 +23,10 @@
 
 .common-background-text {
 	color: white!important;	
+}
+
+.routed-page {
+	margin-top: 5em; 
 }
 
 /* LOCAL RULES (loaded as modules) */
