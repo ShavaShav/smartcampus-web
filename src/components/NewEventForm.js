@@ -32,6 +32,7 @@ class NewEventForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
+    // 'yy-mm-dd hh-mm-ss' format for transmission (must be parseable by js' Date)
     const timestamp = this.state.date + ' ' + this.state.time + ':00';
 
     this.props.postEvent(this.state.title, timestamp,
