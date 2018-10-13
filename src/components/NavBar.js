@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { Container, Menu } from 'semantic-ui-react'
+import { Container, Dropdown, Menu } from 'semantic-ui-react'
 
 import { login, logout, openModal } from '../actions';
 import FormModal from './FormModal';
@@ -41,16 +41,17 @@ class NavBar extends Component {
           <Menu.Item onClick={this.handleNewEventClick}>
             New Event
           </Menu.Item>
-          <Menu.Item>
-            {this.props.currentUser.name}
-          </Menu.Item>
-          <Menu.Item onClick={()=>{}}>
-            <GoogleLogout 
-              style={styles.GoogleAuthButton}
-              buttonText="Logout"
-              onLogoutSuccess={this.props.logout}
-            />
-          </Menu.Item>
+          <Dropdown item simple text={this.props.currentUser.name}>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <GoogleLogout 
+                  style={styles.GoogleAuthButton}
+                  buttonText="Logout"
+                  onLogoutSuccess={this.props.logout}
+                />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu.Menu>
       );
     } else {
