@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { openModal, closeModal  } from '../actions';
+import { Modal } from 'semantic-ui-react';
 
 import NewEventForm from './NewEventForm';
+
+import { openModal, closeModal  } from '../actions';
 
 class FormModal extends Component {
 
@@ -29,18 +30,13 @@ class FormModal extends Component {
 
   render() {
     return (
-      <Modal show={this.props.showModal} onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            { this.getTitle() }
-          </Modal.Title>
+      <Modal closeIcon open={this.props.showModal} onClose={this.props.closeModal}>
+        <Modal.Header className='common-header'>
+          { this.getTitle() }
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Content>
           { this.renderModalBody() }
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.props.closeModal}>Close</Button>
-        </Modal.Footer>
+        </Modal.Content>
       </Modal>
     );
   }

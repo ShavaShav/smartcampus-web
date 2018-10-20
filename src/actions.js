@@ -1,5 +1,7 @@
-import api from './api';
 import { error } from 'react-notification-system-redux';
+
+import api from './api';
+
 /**
  * Refs
  * https://redux.js.org/basics/actions
@@ -96,7 +98,6 @@ export function login(googleIDToken) {
     }).then(res => {
       // Login successful, save the JWT
       localStorage.setItem('token', res.value.body.user.token);
-      dispatch({ type: CLOSE_MODAL });
     }).catch(err => {
       // Login failed, show an error message
       // TODO: Check for specific errors, instead of just relaying message.

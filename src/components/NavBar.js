@@ -1,37 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { Link } from 'react-router-dom'
+import { Container, Dropdown, Menu } from 'semantic-ui-react';
+
+import FormModal from './FormModal';
+
 import { login, logout, openModal } from '../actions';
 
-class NavBar extends Component {
+import styles from './styles.css';
 
-  static NEW_EVENT = 'NEW_EVENT';
+class NavBar extends Component {
 
   constructor(props) {
     super(props);
 
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-    this.handleNavClick = this.handleNavClick.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);    
+    this.handleNewEventClick = this.handleNewEventClick.bind(this);
     
     this.renderUserNavItems = this.renderUserNavItems.bind(this);
   }
 
-  handleNavClick(eventKey) {
-    switch (eventKey) {
-      case NavBar.NEW_EVENT:
-        this.props.openModal(NavBar.NEW_EVENT);
-        break;
-      default:
-        // undefined
-    }
-  }
-
-  handleCloseModal(user = null) {
-    this.setState({ 
-      showModal: false
-    });
+  handleNewEventClick() {
+    this.props.openModal(FormModal.NEW_EVENT);
   }
 
   // Authenticates with our backend using google Id token
@@ -40,66 +31,51 @@ class NavBar extends Component {
   }
 
   renderUserNavItems() {
-    // CSS to remove Google signin button styling
-    const googleButtonStyle = {
-      background: 'transparent',
-      color: 'inherit',
-      border: 'none',
-      padding: '0!important',
-      font: 'inherit'
-    }
-
     if (this.props.currentUser) {
       return (
-        <Nav pullRight onSelect={this.handleNavClick}>
-          <NavItem eventKey={NavBar.NEW_EVENT}>
+        <Menu.Menu position='right'>
+          <Menu.Item onClick={this.handleNewEventClick}>
             New Event
-          </NavItem>
-          <NavItem>
-            {this.props.currentUser.name}
-          </NavItem>
-          <NavItem>
-            <GoogleLogout 
-              style={googleButtonStyle}
-              buttonText="Logout"
-              onLogoutSuccess={this.props.logout}
-            />
-          </NavItem>
-        </Nav>
+          </Menu.Item>
+          <Dropdown item simple text={this.props.currentUser.name}>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <GoogleLogout
+                  className={styles.googleAuthButton}
+                  buttonText="Logout"
+                  onLogoutSuccess={this.props.logout}
+                />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Menu>
       );
     } else {
       return (
-        <Nav pullRight onSelect={this.handleNavClick}>
-          <NavItem>
+        <Menu.Menu position='right'>
+          <Menu.Item>
             <GoogleLogin 
-              style={googleButtonStyle}
+              className={styles.googleAuthButton}
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Login"
               onSuccess={this.handleLoginSuccess}
             />
-          </NavItem>
-        </Nav>
+          </Menu.Item>
+        </Menu.Menu>
       );
     }
   }
 
-// F@11TestCampu5
-
   render() {
     return (
-      <Navbar inverse fixedTop>
-        <Grid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="./">SmartCampus</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-              { this.renderUserNavItems() }
-          </Navbar.Collapse>
-        </Grid>
-      </Navbar>
+      <Menu fixed='top' inverted className='common-header'>
+        <Container>
+          <Menu.Item header as={ Link } to={'/'}>
+            SmartCampus
+          </Menu.Item>
+          { this.renderUserNavItems() }
+        </Container>
+      </Menu>
     );
   }
 }

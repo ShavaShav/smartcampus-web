@@ -1,47 +1,64 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Jumbotron } from 'react-bootstrap';
 import Notifications from 'react-notification-system-redux';
-import { connect } from 'react-redux';
+import { Provider, connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Container } from 'semantic-ui-react'
+
+import MainPage from './Main/MainPage';
+import EventPage from './Event/EventPage';
+
 import NavBar from './NavBar';
-import EventFeed from './EventFeed';
 import FormModal from './FormModal';
 
-import {
-  fetchCurrentUser,
-  fetchEvents
-} from '../actions';
+import { fetchCurrentUser } from '../actions';
+
+import './styles.css'; // Global styles loaded here
+
+/**
+ * App component does routing, renders the static components
+ * used across pages (like nav bar, notifications, etc) and
+ * assigns some global state (like the current user)
+ */
 
 class App extends Component {
-
   componentDidMount() {
     if (localStorage.getItem('token') !== null) {
       this.props.fetchCurrentUser();
     }
-
-    this.props.fetchEvents();
   }
 
   render() {
     return (
-      <div>
-        <NavBar currentUser={this.props.currentUser}/>
-        <Jumbotron>
-          <EventFeed events={this.props.events}/>
-        </Jumbotron>
-        <FormModal 
-          modalType={this.props.modalType} 
-          showModal={this.props.showModal}/>
-        <Notifications notifications={this.props.notifications}/>
-      </div>
+      <Provider store={this.props.store}>
+        <Container>
+          <Router>
+            <div>
+              <NavBar currentUser={this.props.currentUser}/>
+              <Switch>
+                <Route exact strict sensitive path="/" component={MainPage} />
+                <Route exact strict sensitive path="/event/:id" component={EventPage} />
+                <Route exact strict sensitive path="/:id" component={MainPage} /> {/*TODO: Replace with ProfilePage */}
+              </Switch>    
+            </div>
+          </Router>
+          <FormModal 
+            modalType={this.props.modalType} 
+            showModal={this.props.showModal}/>
+          <Notifications notifications={this.props.notifications}/>
+        </Container>
+      </Provider>
     );
   }
 }
 
-// Global State
+App.propTypes = {
+    store: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
-    events: state.eventFeed.events,
     modalType: state.modal.type,
     showModal: state.modal.show,
     notifications: state.notifications
@@ -49,7 +66,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchEvents,
   fetchCurrentUser
 };
 
