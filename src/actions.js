@@ -15,9 +15,11 @@ import api from './api';
 export const ADD_EVENT = 'ADD_EVENT';
 export const POST_EVENT = 'POST_EVENT';
 export const LIKE_EVENT = 'LIKE_EVENT';
-export const FETCH_EVENTS = 'FETCH_EVENTS';
+export const UNLIKE_EVENT = 'UNLIKE_EVENT';
 
+export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_CURRENT_USER = 'FETCH_CURRENT_USER';
+
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER = 'REGISTER';
@@ -83,6 +85,13 @@ export function likeEvent(id) {
   return {
     type: LIKE_EVENT,
     payload: api.Event.like(id)
+  }
+}
+
+export function unlikeEvent(id) {
+  return {
+    type: UNLIKE_EVENT,
+    payload: api.Event.unlike(id)
   }
 }
 

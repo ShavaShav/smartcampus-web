@@ -3,6 +3,7 @@ import { reducer as notifications } from 'react-notification-system-redux';
 import {
   POST_EVENT,
   LIKE_EVENT,
+  UNLIKE_EVENT,
   FETCH_EVENTS,
   LOGIN,
   REGISTER,
@@ -29,6 +30,8 @@ function eventFeed(state = {isFetching: false, events: []}, action) {
         events: [action.payload.body.event, ...state.events]
       };
     case `${LIKE_EVENT}_FULFILLED`:
+    case `${UNLIKE_EVENT}_FULFILLED`:
+      // Replace the event with the updated event from server
       const receivedEvent = action.payload.body.event;
       return {
         ...state,

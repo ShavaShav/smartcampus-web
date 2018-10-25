@@ -35,9 +35,6 @@ class NewEventForm extends Component {
   }
 
   handleTextChange = (e, {name, value}) => {
-    console.log(name);
-    console.log(value);
-
     // Update state from text fields
     this.setState({
       [name]: value

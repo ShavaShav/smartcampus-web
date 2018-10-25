@@ -4,12 +4,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { Card, Container, Grid, Header, Button } from 'semantic-ui-react'
 
-import { likeEvent } from '../../actions';
+import { likeEvent, unlikeEvent } from '../../actions';
 
 class EventCard extends Component {
-
-  // Ids for button events
-  static BUTTON_LIKE = 1;
 
   constructor(props) {
     super(props);
@@ -22,7 +19,7 @@ class EventCard extends Component {
     
     const event = this.props.event;
     if (event.liked) {
-      // unlike
+      this.props.unlikeEvent(event.id);
     } else {
       this.props.likeEvent(event.id);
     }
@@ -32,29 +29,17 @@ class EventCard extends Component {
     const event = this.props.event;
     const numLikes = event.likes.toString();
 
-    if (event.liked) {
-      return (
-        <Button
-          circular
-          color='red'
-          icon='heart'
-          label={{ circular: true, basic: true, color: 'red', pointing: 'left', content: numLikes }}
-          onClick={ this.handleLike }
-        />
-      )
-    } else {
-      return (
-        // 'basic' drains the color, indicated not liked
-        <Button
-          basic
-          circular
-          color='red'
-          icon='heart'
-          label={{ circular: true, basic: true, color: 'red', pointing: 'left', content: numLikes }}
-          onClick={ this.handleLike }
-        />
-      )
-    }
+    return (
+      // 'basic' drains the color, indicating not liked
+      <Button
+        basic={!event.liked}
+        circular
+        color='red'
+        icon='heart'
+        label={{ circular: true, basic: true, color: 'red', pointing: 'left', content: numLikes }}
+        onClick={ this.handleLike }
+      />
+    )
   }
 
   render() {
@@ -89,7 +74,6 @@ class EventCard extends Component {
             </Grid>
           </Card.Meta>
         </Card.Content>
-      {/* TODO: Replace this content area with likes, attendees */}
         <Card.Content extra style={{textAlign: 'right'}}>
           { this.renderLike() }
         </Card.Content>
@@ -100,7 +84,7 @@ class EventCard extends Component {
 
 // Get access to some dispatch actions
 const mapDispatchToProps = {
-  likeEvent
+  likeEvent, unlikeEvent
 };
 
 export default connect(null, mapDispatchToProps)(EventCard);
