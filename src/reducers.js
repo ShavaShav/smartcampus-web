@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import { reducer as notifications } from 'react-notification-system-redux';
 import {
   POST_EVENT,
+  LIKE_EVENT,
   FETCH_EVENTS,
   LOGIN,
   REGISTER,
@@ -26,6 +27,14 @@ function eventFeed(state = {isFetching: false, events: []}, action) {
       return {
         ...state,
         events: [action.payload.body.event, ...state.events]
+      };
+    case `${LIKE_EVENT}_FULFILLED`:
+      const receivedEvent = action.payload.body.event;
+      return {
+        ...state,
+        events: state.events.map((event) => 
+          event.id === receivedEvent.id ? receivedEvent : event
+        )
       };
     case `${FETCH_EVENTS}_PENDING`:
       return {

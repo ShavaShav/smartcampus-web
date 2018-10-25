@@ -14,6 +14,7 @@ import api from './api';
 
 export const ADD_EVENT = 'ADD_EVENT';
 export const POST_EVENT = 'POST_EVENT';
+export const LIKE_EVENT = 'LIKE_EVENT';
 export const FETCH_EVENTS = 'FETCH_EVENTS';
 
 export const FETCH_CURRENT_USER = 'FETCH_CURRENT_USER';
@@ -75,6 +76,13 @@ export function postEvent(title, timestamp, location, link, body) {
     }).then(res => {
       dispatch({ type: CLOSE_MODAL });
     });
+  }
+}
+
+export function likeEvent(id) {
+  return {
+    type: LIKE_EVENT,
+    payload: api.Event.like(id)
   }
 }
 

@@ -73,6 +73,8 @@ const Event = {
     requests.del('/events/' + id),
   get: (id) =>
     requests.get('/events/' + id),
+  like: (id) => 
+    requests.put('/events/' + id + '/like'),
   feed: () =>
     requests.get('/events')
 };
