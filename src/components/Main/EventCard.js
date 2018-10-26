@@ -1,9 +1,46 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { Card, Container, Grid, Header } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+import { Card, Container, Grid, Header, Button } from 'semantic-ui-react'
+
+import { likeEvent, unlikeEvent } from '../../actions';
 
 class EventCard extends Component {
+
+  constructor(props) {
+    super(props);
+    
+    this.handleLike = this.handleLike.bind(this);
+  }
+  
+  handleLike(e) {
+    e.preventDefault(); // This stops the Link in render() from routing to EventPage
+    
+    const event = this.props.event;
+    if (event.liked) {
+      this.props.unlikeEvent(event.id);
+    } else {
+      this.props.likeEvent(event.id);
+    }
+}
+
+  renderLike() {
+    const event = this.props.event;
+    const numLikes = event.likes.toString();
+
+    return (
+      // 'basic' drains the color, indicating not liked
+      <Button
+        basic={!event.liked}
+        circular
+        color='red'
+        icon='heart'
+        label={{ circular: true, basic: true, color: 'red', pointing: 'left', content: numLikes }}
+        onClick={ this.handleLike }
+      />
+    )
+  }
 
   render() {
     const event = this.props.event;
@@ -37,13 +74,17 @@ class EventCard extends Component {
             </Grid>
           </Card.Meta>
         </Card.Content>
-      {/* TODO: Replace this content area with likes, attendees */}
         <Card.Content extra style={{textAlign: 'right'}}>
-          <small>Updated at {event.updatedAt}</small>
+          { this.renderLike() }
         </Card.Content>
       </Card>
     );
   }
 }
 
-export default EventCard;
+// Get access to some dispatch actions
+const mapDispatchToProps = {
+  likeEvent, unlikeEvent
+};
+
+export default connect(null, mapDispatchToProps)(EventCard);
