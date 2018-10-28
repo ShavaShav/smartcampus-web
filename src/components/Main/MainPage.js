@@ -12,7 +12,7 @@ import { fetchEvents } from '../../actions';
 
 class MainPage extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchEvents();
   }
 

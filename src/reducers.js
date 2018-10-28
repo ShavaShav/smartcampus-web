@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { reducer as notifications } from 'react-notification-system-redux';
 import {
+  FETCH_EVENT,
   POST_EVENT,
   LIKE_EVENT,
   UNLIKE_EVENT,
@@ -74,6 +75,16 @@ function currentUser(state = null, action) {
   }
 }
 
+// Sets the current event (used by EventPage)
+function currentEvent(state = null, action) {
+  switch (action.type) {
+    case `${FETCH_EVENT}_FULFILLED`:
+      return action.payload.body.event;
+    default:
+      return state
+  }
+}
+
 function modal(state = {type: null, show: false}, action) {
   switch (action.type) {
     case OPEN_MODAL:
@@ -92,5 +103,5 @@ function modal(state = {type: null, show: false}, action) {
 }
 
 export default combineReducers({
-  currentUser, eventFeed, modal, notifications
+  currentUser, currentEvent, eventFeed, modal, notifications
 })

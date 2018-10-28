@@ -12,6 +12,7 @@ import api from './api';
  * Action Types
  */
 
+export const FETCH_EVENT = 'FETCH_EVENT';
 export const ADD_EVENT = 'ADD_EVENT';
 export const POST_EVENT = 'POST_EVENT';
 export const LIKE_EVENT = 'LIKE_EVENT';
@@ -67,6 +68,13 @@ export function fetchEvents() {
   return {
     type: FETCH_EVENTS,
     payload: api.Event.feed()
+  }
+}
+
+export function fetchEvent(id) {
+  return {
+    type: FETCH_EVENT,
+    payload: api.Event.get(id)
   }
 }
 
