@@ -17,6 +17,10 @@ export const ADD_EVENT = 'ADD_EVENT';
 export const POST_EVENT = 'POST_EVENT';
 export const LIKE_EVENT = 'LIKE_EVENT';
 export const UNLIKE_EVENT = 'UNLIKE_EVENT';
+export const COMMENT_EVENT = 'COMMENT_EVENT';
+export const COMMENT_EVENT_UPDATE = 'COMMENT_EVENT_UPDATE';
+
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_CURRENT_USER = 'FETCH_CURRENT_USER';
@@ -43,6 +47,13 @@ export function openModal(modalType) {
   return {
     type: OPEN_MODAL,
     modalType
+  }
+}
+
+export function commentEventUpdate(body) {
+  return {
+    type: COMMENT_EVENT_UPDATE,
+    body
   }
 }
 
@@ -100,6 +111,20 @@ export function unlikeEvent(id) {
   return {
     type: UNLIKE_EVENT,
     payload: api.Event.unlike(id)
+  }
+}
+
+export function commentEvent(id, body) {
+  return {
+    type: COMMENT_EVENT,
+    payload: api.Event.comment(id, body)
+  }
+}
+
+export function deleteComment(id) {
+  return {
+    type: DELETE_COMMENT,
+    payload: api.Comment.delete(id)
   }
 }
 

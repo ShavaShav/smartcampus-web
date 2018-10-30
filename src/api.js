@@ -77,10 +77,17 @@ const Event = {
     requests.put('/events/' + id + '/like'),
   unlike: (id) => 
     requests.del('/events/' + id + '/like'),
+  comment: (id, body) =>
+    requests.post('/events/' + id + '/comment', {comment: { body } }),
   feed: () =>
     requests.get('/events')
 };
 
+const Comment = {
+  delete: (id) =>
+    requests.del('/comment/' + id),
+};
+
 export default {
-  User, Event
+  Comment, Event, User
 };
