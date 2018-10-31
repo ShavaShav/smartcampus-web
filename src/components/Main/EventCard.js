@@ -11,6 +11,7 @@ class EventCard extends Component {
   constructor(props) {
     super(props);
     
+    this.isLiked = false; // no need for state for this, depends on the event state
     this.handleLike = this.handleLike.bind(this);
   }
   
@@ -18,7 +19,7 @@ class EventCard extends Component {
     e.preventDefault(); // This stops the Link in render() from routing to EventPage
     
     const event = this.props.event;
-    if (event.liked) {
+    if (this.isLiked) {
       this.props.unlikeEvent(event.id);
     } else {
       this.props.likeEvent(event.id);
@@ -27,12 +28,20 @@ class EventCard extends Component {
 
   renderLike() {
     const event = this.props.event;
-    const numLikes = event.likes.toString();
+
+    const numLikes = event.likes.length.toString();
+
+    if (this.props.currentUser) {
+      // If logged in, determine if user likes
+      this.isLiked = event.likes.some(user => user.id === this.props.currentUser.id);
+    } else {
+      this.isLiked = false; // no user, no like
+    }
 
     return (
       // 'basic' drains the color, indicating not liked
       <Button
-        basic={!event.liked}
+        basic={!this.isLiked}
         circular
         color='red'
         icon='heart'
@@ -82,9 +91,16 @@ class EventCard extends Component {
   }
 }
 
+// Get access to some global state
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  }
+};
+
 // Get access to some dispatch actions
 const mapDispatchToProps = {
   likeEvent, unlikeEvent
 };
 
-export default connect(null, mapDispatchToProps)(EventCard);
+export default connect(mapStateToProps, mapDispatchToProps)(EventCard);
