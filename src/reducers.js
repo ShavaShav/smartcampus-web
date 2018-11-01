@@ -7,6 +7,7 @@ import {
   UNLIKE_EVENT,
   COMMENT_EVENT,
   COMMENT_EVENT_UPDATE,
+  DELETE_COMMENT,
   FETCH_EVENTS,
   LOGIN,
   REGISTER,
@@ -85,8 +86,13 @@ function currentEvent(state = null, action) {
       return action.payload.body.event;
     case `${COMMENT_EVENT}_FULFILLED`:
       return { 
-        ...state, // Add the comment to the event's list (as opposed to refetching event)
+        ...state, // Add to start of event's comment list
         comments: [action.payload.body.comment, ...state.comments]
+      }
+    case `${DELETE_COMMENT}_FULFILLED`:
+      return { 
+        ...state, // Keep comments that arent the deleted one
+        comments: state.comments.filter((comment) => comment.id !== action.id)
       }
     default:
       return state

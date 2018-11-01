@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Comment, Container, Form, Header } from 'semantic-ui-react';
+import { Button, Comment, Container, Form, Header, Icon } from 'semantic-ui-react';
 
 import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../../actions';
 
@@ -10,22 +10,38 @@ import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../
 
 class EventPage extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);    
     this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.handleCommentDelete = this.handleCommentDelete.bind(this);
   }
   
   componentWillMount() {
     this.props.fetchEvent(this.props.match.params.id);
   }
   
-  handleCommentChange(event){
+  handleCommentChange(event) {
     this.props.commentEventUpdate(event.target.value);
   }
 
-  handleCommentSubmit(){
+  handleCommentSubmit() {
     this.props.commentEvent(this.props.currentEvent.id, this.props.currentEventComment);
+  }
+
+  handleCommentDelete(e) {
+    this.props.deleteComment(e.target.id);
+  }
+
+  renderDeleteCommentButton(comment) {
+    if (this.props.currentUser && comment.author.id === this.props.currentUser.id) {
+      return (
+        <Comment.Action >
+          <Icon name='delete' onClick={this.handleCommentDelete} id={comment.id}/>
+          Delete
+        </Comment.Action>
+      )
+    }
   }
 
   renderComments() {
@@ -38,6 +54,9 @@ class EventPage extends Component {
               <Comment.Author>{comment.author.name}</Comment.Author>
               <Comment.Metadata>
                 <div>{comment.createdAt}</div>
+                <Comment.Actions>
+                  { this.renderDeleteCommentButton(comment) }
+                </Comment.Actions>
               </Comment.Metadata>
               <Comment.Text>{comment.body}</Comment.Text>
             </Comment.Content>

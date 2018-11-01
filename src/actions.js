@@ -122,9 +122,18 @@ export function commentEvent(id, body) {
 }
 
 export function deleteComment(id) {
-  return {
-    type: DELETE_COMMENT,
-    payload: api.Comment.delete(id)
+  return dispatch => {
+    dispatch({ 
+      type: DELETE_COMMENT,
+      payload: api.Comment.delete(id)
+    }).then(res => {
+      // intercept to pass the id with FULFILLED action
+      // ref: https://stackoverflow.com/questions/42377954/pass-argument-through-action-to-reducer-with-promise-thunk
+      dispatch({
+        type: `${DELETE_COMMENT}_FULFILLED`,
+        id: id
+      }) 
+    });
   }
 }
 
