@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button, Comment, Container, Form, Header, Icon } from 'semantic-ui-react';
+
+import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../../actions';
 
 /*
  * Event page layout component
@@ -7,11 +10,85 @@ import { connect } from 'react-redux';
 
 class EventPage extends Component {
 
-  renderUser() {
-    if (this.props.currentUser) {
-      return <div><b>User:</b> {this.props.currentUser.name}</div>
+  constructor(props) {
+    super(props);    
+    this.handleCommentChange = this.handleCommentChange.bind(this);
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.handleCommentDelete = this.handleCommentDelete.bind(this);
+  }
+  
+  componentWillMount() {
+    this.props.fetchEvent(this.props.match.params.id);
+  }
+  
+  handleCommentChange(event) {
+    this.props.commentEventUpdate(event.target.value);
+  }
+
+  handleCommentSubmit() {
+    this.props.commentEvent(this.props.currentEvent.id, this.props.currentEventComment);
+  }
+
+  handleCommentDelete(e) {
+    this.props.deleteComment(e.target.id);
+  }
+
+  renderDeleteCommentButton(comment) {
+    if (this.props.currentUser && comment.author.id === this.props.currentUser.id) {
+      return (
+        <Comment.Action >
+          <Icon name='delete' onClick={this.handleCommentDelete} id={comment.id}/>
+          Delete
+        </Comment.Action>
+      )
+    }
+  }
+
+  renderComments() {
+    return (
+      <div>
+        { this.props.currentEvent.comments.map(comment => (
+          <Comment key={comment.id}>
+            <Comment.Avatar src={comment.author.picture} />
+            <Comment.Content>
+              <Comment.Author>{comment.author.name}</Comment.Author>
+              <Comment.Metadata>
+                <div>{comment.createdAt}</div>
+                <Comment.Actions>
+                  { this.renderDeleteCommentButton(comment) }
+                </Comment.Actions>
+              </Comment.Metadata>
+              <Comment.Text>{comment.body}</Comment.Text>
+            </Comment.Content>
+          </Comment>
+        ))}
+      </div>
+    )
+  }
+
+  renderEvent() {
+    if (this.props.currentEvent) {
+      return (
+        <div>
+          <Container style={{height: '75%'}}>
+            {/* We'll put the event details (title, image, description etc) here. Making 75% height for now */}
+            <div><b>Event:</b> {this.props.currentEvent.title} by {this.props.currentEvent.author.name}</div>
+          </Container>
+          <Comment.Group>
+            <Header as='h3' dividing>
+              Comments
+            </Header>
+            { this.renderComments() }
+
+            <Form reply onSubmit={this.handleCommentSubmit}>
+              <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
+              <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
+            </Form>
+          </Comment.Group>
+        </div>
+      )
     } else {
-      return <div><b>User:</b> Not signed in</div>
+      return <Container>Waiting for event to load...</Container>
     }
   }
 
@@ -19,9 +96,7 @@ class EventPage extends Component {
     return (
       <div className='routed-page'>
         <h2>Under construction.</h2>
-        <b>Event:</b> {this.props.match.params.id}
-        <br/>
-        { this.renderUser() }
+        { this.renderEvent() }
       </div>
     );
   }
@@ -30,8 +105,15 @@ class EventPage extends Component {
 // Get access to some global state
 const mapStateToProps = state => {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    currentEvent: state.currentEvent,
+    currentEventComment: state.currentEventComment || ''
   }
 };
 
-export default connect(mapStateToProps)(EventPage);
+// Get access to some dispatch actions
+const mapDispatchToProps = {
+  fetchEvent, commentEvent, commentEventUpdate, deleteComment
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

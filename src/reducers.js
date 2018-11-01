@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux'
 import { reducer as notifications } from 'react-notification-system-redux';
 import {
+  FETCH_EVENT,
   POST_EVENT,
   LIKE_EVENT,
   UNLIKE_EVENT,
+  COMMENT_EVENT,
+  COMMENT_EVENT_UPDATE,
+  DELETE_COMMENT,
   FETCH_EVENTS,
   LOGIN,
   REGISTER,
@@ -74,6 +78,39 @@ function currentUser(state = null, action) {
   }
 }
 
+// Sets the current event (used by EventPage)
+function currentEvent(state = null, action) {
+  switch (action.type) {
+    case `${FETCH_EVENT}_FULFILLED`:
+    case `${LIKE_EVENT}_FULFILLED`:
+      return action.payload.body.event;
+    case `${COMMENT_EVENT}_FULFILLED`:
+      return { 
+        ...state, // Add to start of event's comment list
+        comments: [action.payload.body.comment, ...state.comments]
+      }
+    case `${DELETE_COMMENT}_FULFILLED`:
+      return { 
+        ...state, // Keep comments that arent the deleted one
+        comments: state.comments.filter((comment) => comment.id !== action.id)
+      }
+    default:
+      return state
+  }
+}
+
+// Sets the current event's comment body (used by EventPage)
+function currentEventComment(state = null, action) {
+  switch (action.type) {
+    case COMMENT_EVENT_UPDATE:
+      return action.body; // update field with body
+    case `${COMMENT_EVENT}_FULFILLED`:
+      return ''; // reset comment field
+    default:
+      return state
+  }
+}
+
 function modal(state = {type: null, show: false}, action) {
   switch (action.type) {
     case OPEN_MODAL:
@@ -92,5 +129,5 @@ function modal(state = {type: null, show: false}, action) {
 }
 
 export default combineReducers({
-  currentUser, eventFeed, modal, notifications
+  currentUser, currentEvent, currentEventComment, eventFeed, modal, notifications
 })

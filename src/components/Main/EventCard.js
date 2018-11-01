@@ -42,11 +42,24 @@ class EventCard extends Component {
       // 'basic' drains the color, indicating not liked
       <Button
         basic={!this.isLiked}
-        circular
         color='red'
         icon='heart'
-        label={{ circular: true, basic: true, color: 'red', pointing: 'left', content: numLikes }}
+        label={{ circular: false, basic: true, color: 'red', pointing: 'left', content: numLikes }}
         onClick={ this.handleLike }
+      />
+    )
+  }
+
+  renderComment() {
+    const event = this.props.event;
+    const numComments = event.comments.length.toString();
+
+    return (
+      <Button
+        basic='false'
+        color='blue'
+        icon='comments'
+        label={{ circular: false, basic: true, color: 'blue', pointing: 'none', content: numComments }}
       />
     )
   }
@@ -84,6 +97,7 @@ class EventCard extends Component {
           </Card.Meta>
         </Card.Content>
         <Card.Content extra style={{textAlign: 'right'}}>
+          { this.renderComment() }
           { this.renderLike() }
         </Card.Content>
       </Card>
