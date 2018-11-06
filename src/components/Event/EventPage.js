@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Comment, Container, Form, Header, Icon } from 'semantic-ui-react';
+import moment from 'moment';
 
 import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../../actions';
 
@@ -68,11 +69,16 @@ class EventPage extends Component {
 
   renderEvent() {
     if (this.props.currentEvent) {
+	const eventMoment = moment(this.props.currentEvent.time);
+	
       return (
         <div>
           <Container style={{height: '75%'}}>
             {/* We'll put the event details (title, image, description etc) here. Making 75% height for now */}
-            <div><b>Event:</b> {this.props.currentEvent.title} by {this.props.currentEvent.author.name}</div>
+            <div><h1>{this.props.currentEvent.title}</h1> posted by<small style={{ color:'gray'}}> {this.props.currentEvent.author.name}</small></div><br/>
+            <div><p>{this.props.currentEvent.body}</p>
+              <p>This event will take place on <b>{ eventMoment.format('dddd, MMMM DD, YYYY, h:mm a')}</b> in the <b>{this.props.currentEvent.location}.</b></p>
+            </div><br/>
           </Container>
           <Comment.Group>
             <Header as='h3' dividing>
@@ -95,7 +101,6 @@ class EventPage extends Component {
   render() {
     return (
       <div className='routed-page'>
-        <h2>Under construction.</h2>
         { this.renderEvent() }
       </div>
     );
