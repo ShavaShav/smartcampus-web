@@ -5,6 +5,8 @@ import {
   POST_EVENT,
   LIKE_EVENT,
   UNLIKE_EVENT,
+  ATTEND_EVENT,
+  UNATTEND_EVENT,
   COMMENT_EVENT,
   COMMENT_EVENT_UPDATE,
   DELETE_COMMENT,
@@ -33,8 +35,10 @@ function eventFeed(state = {isFetching: false, events: []}, action) {
         ...state,
         events: [action.payload.body.event, ...state.events]
       };
-    case `${LIKE_EVENT}_FULFILLED`:
-    case `${UNLIKE_EVENT}_FULFILLED`:
+      case `${LIKE_EVENT}_FULFILLED`:
+      case `${UNLIKE_EVENT}_FULFILLED`:
+      case `${ATTEND_EVENT}_FULFILLED`:
+      case `${UNATTEND_EVENT}_FULFILLED`:
       // Replace the event with the updated event from server
       const receivedEvent = action.payload.body.event;
       return {
@@ -84,6 +88,8 @@ function currentEvent(state = null, action) {
     case `${FETCH_EVENT}_FULFILLED`:
     case `${LIKE_EVENT}_FULFILLED`:
     case `${UNLIKE_EVENT}_FULFILLED`:
+    case `${ATTEND_EVENT}_FULFILLED`:
+    case `${UNATTEND_EVENT}_FULFILLED`:
       return action.payload.body.event;
     case `${COMMENT_EVENT}_FULFILLED`:
       return { 
@@ -130,5 +136,10 @@ function modal(state = {type: null, show: false}, action) {
 }
 
 export default combineReducers({
-  currentUser, currentEvent, currentEventComment, eventFeed, modal, notifications
+  currentUser, 
+  currentEvent, 
+  currentEventComment, 
+  eventFeed, 
+  modal, 
+  notifications
 })

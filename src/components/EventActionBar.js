@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react'
 
-import { likeEvent, unlikeEvent } from '../actions';
+import { likeEvent, unlikeEvent, attendEvent, unattendEvent } from '../actions';
 
 class EventActionBar extends Component {
 
   constructor(props) {
     super(props);
     
-    this.isLiked = false; // no need for state for this, depends on the event state
+    // no local state needed for this, derived from the event state
+    this.isLiked = false;
+    this.isAttending = false;
+
     this.handleLike = this.handleLike.bind(this);
+    this.handleAttend = this.handleAttend.bind(this);
   }
   
   handleLike(e) {
@@ -21,6 +25,17 @@ class EventActionBar extends Component {
       this.props.unlikeEvent(event.id);
     } else {
       this.props.likeEvent(event.id);
+    }
+  }
+
+  handleAttend(e) {
+    e.preventDefault(); // This stops the Link in render() from routing to EventPage
+    
+    const event = this.props.event;
+    if (this.isAttending) {
+      this.props.unattendEvent(event.id);
+    } else {
+      this.props.attendEvent(event.id);
     }
   }
 
@@ -48,6 +63,31 @@ class EventActionBar extends Component {
     )
   }
 
+  renderAttendButton() {
+    const event = this.props.event;
+
+    const numAttendees = event.attendees.length.toString();
+
+    if (this.props.currentUser) {
+      // If logged in, determine if user is attending
+      this.isAttending = event.attendees.some(user => user.id === this.props.currentUser.id);
+    } else {
+      this.isAttending = false; // no user, not attending
+    }
+
+    return (
+      // 'basic' drains the color, indicating not attending
+      // envelope icon is also open if not attending
+      <Button
+        basic={!this.isAttending}
+        color='red'
+        icon={this.isAttending ? 'envelope outline' : 'envelope open outline'}
+        label={{ circular: false, basic: true, color: 'green', pointing: 'left', content: numAttendees }}
+        onClick={ this.handleLike }
+      />
+    )
+  }
+
   renderCommentButton() {
     const event = this.props.event;
     const numComments = event.comments.length.toString();
@@ -65,8 +105,9 @@ class EventActionBar extends Component {
   render() {
     return (
       <div>
-        { this.renderCommentButton() }
         { this.renderLikeButton() }
+        { this.renderAttendButton() }
+        { this.renderCommentButton() }
       </div>
     );
   }
@@ -81,7 +122,7 @@ const mapStateToProps = state => {
 
 // Get access to some dispatch actions
 const mapDispatchToProps = {
-  likeEvent, unlikeEvent
+  likeEvent, unlikeEvent, attendEvent, unattendEvent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventActionBar);

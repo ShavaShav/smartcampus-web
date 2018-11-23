@@ -17,6 +17,8 @@ export const ADD_EVENT = 'ADD_EVENT';
 export const POST_EVENT = 'POST_EVENT';
 export const LIKE_EVENT = 'LIKE_EVENT';
 export const UNLIKE_EVENT = 'UNLIKE_EVENT';
+export const ATTEND_EVENT = 'ATTEND_EVENT';
+export const UNATTEND_EVENT = 'UNATTEND_EVENT';
 export const COMMENT_EVENT = 'COMMENT_EVENT';
 export const COMMENT_EVENT_UPDATE = 'COMMENT_EVENT_UPDATE';
 
@@ -111,6 +113,20 @@ export function unlikeEvent(id) {
   return {
     type: UNLIKE_EVENT,
     payload: api.Event.unlike(id)
+  }
+}
+
+export function attendEvent(id) {
+  return {
+    type: ATTEND_EVENT,
+    payload: api.Event.attend(id)
+  }
+}
+
+export function unattendEvent(id) {
+  return {
+    type: UNATTEND_EVENT,
+    payload: api.Event.unattend(id)
   }
 }
 

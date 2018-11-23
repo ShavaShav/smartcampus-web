@@ -77,6 +77,10 @@ const Event = {
     requests.put('/events/' + id + '/like'),
   unlike: (id) => 
     requests.del('/events/' + id + '/like'),
+  attend: (id) => 
+    requests.put('/events/' + id + '/attend'),
+  unattend: (id) => 
+    requests.del('/events/' + id + '/attend'),
   comment: (id, body) =>
     requests.post('/events/' + id + '/comment', {comment: { body } }),
   feed: () =>
