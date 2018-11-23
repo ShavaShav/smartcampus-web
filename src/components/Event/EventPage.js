@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Comment, Container, Form, Header, Icon, Grid } from 'semantic-ui-react';
+import { Button, Comment, Container, Form, Header, Icon, Grid, List, Image } from 'semantic-ui-react';
 import moment from 'moment';
 import AttendButton from '../Buttons/AttendButton';
 import CommentButton from '../Buttons/CommentButton';
@@ -48,6 +48,21 @@ class EventPage extends Component {
     }
   }
 
+  renderAttendees() {
+    return (
+      <List relaxed horizontal style={{maxHeight: '250px', overflowY: 'auto'}}>
+        { this.props.currentEvent.attendees.map(attendee => (
+          <List.Item>
+            <Image avatar src={attendee.picture} />
+            <List.Content>
+              <List.Header>{attendee.name}</List.Header>
+            </List.Content>
+          </List.Item>
+        ))}
+      </List>
+    )
+  }
+
   renderComments() {
     return (
       <div>
@@ -73,14 +88,13 @@ class EventPage extends Component {
   renderEvent() {
     if (this.props.currentEvent) {
       const event = this.props.currentEvent;
-      console.log(event);
       const eventMoment = moment(event.time);
       
       return (
-        <Grid divided stackable>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={10}>
-              <h1>{event.title}</h1>
+              <Header as='h1' dividing>{event.title}</Header>
               <p>{event.body}</p>
             </Grid.Column>
             <Grid.Column width={6} className='side-event-page'>
@@ -90,27 +104,36 @@ class EventPage extends Component {
                 <CommentButton event={event}/>
               </Grid.Row>
               <Grid.Row>
-                <h2>When?</h2>
+                <Header as='h3' dividing>When?</Header>
                 <p>{eventMoment.format('dddd, MMMM DD, YYYY, h:mm a')}</p>
               </Grid.Row>
               <Grid.Row>
-                <h2>Where?</h2>
+                <Header as='h3' dividing>Where?</Header>
                 <p>{event.location}</p>
               </Grid.Row>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Comment.Group style={{width: '100%'}}>
-              <Header as='h3' dividing>
-                Comments ({event.comments.length})
-              </Header>
-              { this.renderComments() }
-
-              <Form reply onSubmit={this.handleCommentSubmit}>
-                <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
-                <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
-              </Form>
-            </Comment.Group>
+            <Header as='h3' dividing className='full-width'>
+              Attendees ({event.attendees.length})
+            </Header>
+            <Container>
+              { this.renderAttendees() }
+            </Container>
+          </Grid.Row>
+          <Grid.Row>
+            <Header as='h3' dividing className='full-width'>
+              Comments ({event.comments.length})
+            </Header>
+            <Container className='full-width'>
+              <Comment.Group>
+                { this.renderComments() }
+                <Form reply onSubmit={this.handleCommentSubmit}>
+                  <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
+                  <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
+                </Form>
+              </Comment.Group>
+            </Container>
           </Grid.Row>
         </Grid>
       )

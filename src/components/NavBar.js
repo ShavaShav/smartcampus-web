@@ -70,7 +70,7 @@ class NavBar extends Component {
     return (
       <Menu fixed='top' inverted className='common-header'>
         <Container>
-          <Menu.Item header as={ Link } to={'/'}>
+          <Menu.Item header style={{fontSize: '12pt'}} as={ Link } to={'/'}>
             SmartCampus
           </Menu.Item>
           { this.renderUserNavItems() }

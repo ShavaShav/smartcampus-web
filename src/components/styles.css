@@ -25,6 +25,10 @@
 	color: white!important;	
 }
 
+.full-width {
+    width: 100% !important;
+}
+
 .routed-page {
 	margin-top: 5em; 
 }
