@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react'
-
+import LikeButton from './Counters/LikeButton'
 import { likeEvent, unlikeEvent, attendEvent, unattendEvent } from '../actions';
 
 class EventActionBar extends Component {
@@ -80,10 +80,10 @@ class EventActionBar extends Component {
       // envelope icon is also open if not attending
       <Button
         basic={!this.isAttending}
-        color='red'
+        color='green'
         icon={this.isAttending ? 'envelope outline' : 'envelope open outline'}
         label={{ circular: false, basic: true, color: 'green', pointing: 'left', content: numAttendees }}
-        onClick={ this.handleLike }
+        onClick={ this.handleAttend }
       />
     )
   }
@@ -105,7 +105,7 @@ class EventActionBar extends Component {
   render() {
     return (
       <div>
-        { this.renderLikeButton() }
+        <LikeButton event={this.props.event}/>
         { this.renderAttendButton() }
         { this.renderCommentButton() }
       </div>

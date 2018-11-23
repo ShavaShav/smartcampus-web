@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Comment, Container, Form, Header, Icon, Grid } from 'semantic-ui-react';
 import moment from 'moment';
-import EventActionBar from '../EventActionBar';
+import AttendButton from '../Buttons/AttendButton';
+import CommentButton from '../Buttons/CommentButton';
+import LikeButton from '../Buttons/LikeButton';
+
 import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../../actions';
 
 /*
@@ -45,30 +48,6 @@ class EventPage extends Component {
     }
   }
 
-  renderLikeButton() {
-    const event = this.props.currentEvent;
-
-    const numLikes = event.likes.length.toString();
-
-    if (this.props.currentUser) {
-      // If logged in, determine if user likes
-      this.isLiked = event.likes.some(user => user.id === this.props.currentUser.id);
-    } else {
-      this.isLiked = false; // no user, no like
-    }
-
-    return (
-      // 'basic' drains the color, indicating not liked
-      <Button
-        basic={!this.isLiked}
-        color='red'
-        icon='heart'
-        label={{ circular: false, basic: true, color: 'red', pointing: 'left', content: numLikes }}
-        onClick={ this.handleLike }
-      />
-    )
-  }
-
   renderComments() {
     return (
       <div>
@@ -106,7 +85,9 @@ class EventPage extends Component {
             </Grid.Column>
             <Grid.Column width={6} className='side-event-page'>
               <Grid.Row>
-                <EventActionBar event={event}/>
+                <AttendButton event={event}/>
+                <LikeButton event={event}/>
+                <CommentButton event={event}/>
               </Grid.Row>
               <Grid.Row>
                 <h2>When?</h2>

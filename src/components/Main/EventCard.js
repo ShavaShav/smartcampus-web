@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { Card, Container, Grid, Header } from 'semantic-ui-react';
-import EventActionBar from '../EventActionBar';
+import AttendButton from '../Buttons/AttendButton';
+import CommentButton from '../Buttons/CommentButton';
+import LikeButton from '../Buttons/LikeButton';
+
 import { likeEvent, unlikeEvent } from '../../actions';
 
 class EventCard extends Component {
@@ -41,7 +44,9 @@ class EventCard extends Component {
           </Card.Meta>
         </Card.Content>
         <Card.Content extra style={{textAlign: 'right'}}>
-          <EventActionBar event={event}/>
+          <CommentButton event={event}/>
+          <AttendButton event={event}/>
+          <LikeButton event={event}/>
         </Card.Content>
       </Card>
     );
