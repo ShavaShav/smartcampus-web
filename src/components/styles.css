@@ -29,6 +29,14 @@
 	margin-top: 5em; 
 }
 
+.side-event-page > * {
+    margin: 30px 0;
+}
+
+.side-event-page > *:first-child {
+    margin: 0px;
+}
+
 /* LOCAL RULES (loaded as modules) */
 
 :local(.googleAuthButton) {

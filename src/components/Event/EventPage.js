@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Comment, Container, Form, Header, Icon } from 'semantic-ui-react';
+import { Button, Comment, Container, Form, Header, Icon, Grid } from 'semantic-ui-react';
 import moment from 'moment';
-
+import EventActionBar from '../EventActionBar';
 import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../../actions';
 
 /*
@@ -45,6 +45,30 @@ class EventPage extends Component {
     }
   }
 
+  renderLikeButton() {
+    const event = this.props.currentEvent;
+
+    const numLikes = event.likes.length.toString();
+
+    if (this.props.currentUser) {
+      // If logged in, determine if user likes
+      this.isLiked = event.likes.some(user => user.id === this.props.currentUser.id);
+    } else {
+      this.isLiked = false; // no user, no like
+    }
+
+    return (
+      // 'basic' drains the color, indicating not liked
+      <Button
+        basic={!this.isLiked}
+        color='red'
+        icon='heart'
+        label={{ circular: false, basic: true, color: 'red', pointing: 'left', content: numLikes }}
+        onClick={ this.handleLike }
+      />
+    )
+  }
+
   renderComments() {
     return (
       <div>
@@ -69,29 +93,45 @@ class EventPage extends Component {
 
   renderEvent() {
     if (this.props.currentEvent) {
-	const eventMoment = moment(this.props.currentEvent.time);
-	
+      const event = this.props.currentEvent;
+      console.log(event);
+      const eventMoment = moment(event.time);
+      
       return (
-        <div>
-          <Container style={{height: '75%'}}>
-            {/* We'll put the event details (title, image, description etc) here. Making 75% height for now */}
-            <div><h1>{this.props.currentEvent.title}</h1> posted by<small style={{ color:'gray'}}> {this.props.currentEvent.author.name}</small></div><br/>
-            <div><p>{this.props.currentEvent.body}</p>
-              <p>This event will take place on <b>{ eventMoment.format('dddd, MMMM DD, YYYY, h:mm a')}</b> in the <b>{this.props.currentEvent.location}.</b></p>
-            </div><br/>
-          </Container>
-          <Comment.Group>
-            <Header as='h3' dividing>
-              Comments
-            </Header>
-            { this.renderComments() }
+        <Grid divided stackable>
+          <Grid.Row>
+            <Grid.Column width={10}>
+              <h1>{event.title}</h1>
+              <p>{event.body}</p>
+            </Grid.Column>
+            <Grid.Column width={6} className='side-event-page'>
+              <Grid.Row>
+                <EventActionBar event={event}/>
+              </Grid.Row>
+              <Grid.Row>
+                <h2>When?</h2>
+                <p>{eventMoment.format('dddd, MMMM DD, YYYY, h:mm a')}</p>
+              </Grid.Row>
+              <Grid.Row>
+                <h2>Where?</h2>
+                <p>{event.location}</p>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Comment.Group style={{width: '100%'}}>
+              <Header as='h3' dividing>
+                Comments ({event.comments.length})
+              </Header>
+              { this.renderComments() }
 
-            <Form reply onSubmit={this.handleCommentSubmit}>
-              <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
-              <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
-            </Form>
-          </Comment.Group>
-        </div>
+              <Form reply onSubmit={this.handleCommentSubmit}>
+                <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
+                <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
+              </Form>
+            </Comment.Group>
+          </Grid.Row>
+        </Grid>
       )
     } else {
       return <Container>Waiting for event to load...</Container>

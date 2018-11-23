@@ -83,6 +83,7 @@ function currentEvent(state = null, action) {
   switch (action.type) {
     case `${FETCH_EVENT}_FULFILLED`:
     case `${LIKE_EVENT}_FULFILLED`:
+    case `${UNLIKE_EVENT}_FULFILLED`:
       return action.payload.body.event;
     case `${COMMENT_EVENT}_FULFILLED`:
       return { 
