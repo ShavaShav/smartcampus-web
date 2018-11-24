@@ -44,7 +44,7 @@ class AttendButton extends Component {
       <Button
         basic={!this.isAttending}
         color='orange'
-        icon={this.isAttending ? 'envelope outline' : 'envelope open outline'}
+        icon={this.isAttending ? 'envelope' : 'envelope open'}
         label={{ circular: false, basic: true, color: 'orange', pointing: 'left', content: numAttendees }}
         onClick={ this.handleAttend }
       />

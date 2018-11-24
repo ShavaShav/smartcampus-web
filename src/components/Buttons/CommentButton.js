@@ -9,10 +9,10 @@ class CommentButton extends Component {
 
     return (
       <Button
-        basic='false'
+        basic={true}
         color='blue'
         icon='comments'
-        label={{ circular: false, basic: true, color: 'blue', pointing: 'none', content: numComments }}
+        label={{ circular: false, basic: true, color: 'blue', pointing: false, content: numComments }}
       />
     )
   }

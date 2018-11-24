@@ -5,8 +5,9 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import { connect } from 'react-redux';
 import { Button, Form, Icon } from 'semantic-ui-react'
+import isUrl from 'is-url';
 
-import { postEvent } from '../actions';
+import { postEvent, showError } from '../actions';
 
 class NewEventForm extends Component {
   constructor(props) {
@@ -23,7 +24,6 @@ class NewEventForm extends Component {
 
   validateForm() {
     return this.state.title.length > 0 
-      && this.state.time.isAfter(moment())
       && this.state.location.length > 0
       && this.state.body.length > 0;
   }
@@ -46,6 +46,11 @@ class NewEventForm extends Component {
 
     // Format date into string for transmission (must be parseable by JS Date)
     const timeString = moment(this.state.time).format('YYYY-MM-DD hh:mm:ss');
+
+    if (this.state.link.length > 0 && !isUrl(this.state.link)) {
+      this.props.showError("Link is not valid");
+      return;
+    }
 
     this.props.postEvent(this.state.title, timeString,
       this.state.location, this.state.link, this.state.body);
@@ -78,7 +83,7 @@ class NewEventForm extends Component {
               timeCaption="at"
             />
           </Form.Field>
-          <Form.Input fluid 
+          <Form.Input fluid
             label="Location"
             name="location"
             onChange={this.handleTextChange}/>
@@ -108,4 +113,9 @@ class NewEventForm extends Component {
   }
 }
 
-export default connect(null, { postEvent })(NewEventForm);
+const mapDispatchToProps = {
+  postEvent,
+  showError
+};
+
+export default connect(null, mapDispatchToProps)(NewEventForm);

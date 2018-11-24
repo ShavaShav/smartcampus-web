@@ -85,6 +85,20 @@ class EventPage extends Component {
     )
   }
 
+  renderLink() {
+    const event = this.props.currentEvent;
+    return (
+      <a href={event.link}>
+        <Button
+          disabled={!event.link}
+          color='grey'
+          icon='linkify'
+          label={{ circular: false, basic: true, color: 'grey', pointing: 'left', content: 'External' }}
+        />
+      </a>
+    )
+  }
+
   renderEvent() {
     if (this.props.currentEvent) {
       const event = this.props.currentEvent;
@@ -103,7 +117,7 @@ class EventPage extends Component {
               <p style={{whiteSpace: 'pre-line'}}>{event.body}</p>
             </Grid.Column>
             <Grid.Column width={6} className='side-event-page'>
-              <Grid.Row>
+              <Grid.Row style={{textAlign: 'center'}}>
                 <AttendButton event={event}/>
                 <LikeButton event={event}/>
                 <CommentButton event={event}/>
@@ -115,6 +129,9 @@ class EventPage extends Component {
               <Grid.Row>
                 <Header as='h3' dividing>Where?</Header>
                 <p>{event.location}</p>
+              </Grid.Row>
+              <Grid.Row style={{textAlign: 'center'}}>
+              { this.renderLink() }
               </Grid.Row>
             </Grid.Column>
           </Grid.Row>

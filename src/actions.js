@@ -77,6 +77,14 @@ export function logout() {
  * Async Action Creators
  */
 
+export function showError(title, message) {
+  return dispatch => {
+    dispatch(
+      error({ title: title, message: message})
+    );
+  }
+}
+
 export function fetchEvents() {
   return {
     type: FETCH_EVENTS,
