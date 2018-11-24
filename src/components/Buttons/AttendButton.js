@@ -43,9 +43,9 @@ class AttendButton extends Component {
       // envelope icon is also open if not attending
       <Button
         basic={!this.isAttending}
-        color='green'
+        color='orange'
         icon={this.isAttending ? 'envelope outline' : 'envelope open outline'}
-        label={{ circular: false, basic: true, color: 'green', pointing: 'left', content: numAttendees }}
+        label={{ circular: false, basic: true, color: 'orange', pointing: 'left', content: numAttendees }}
         onClick={ this.handleAttend }
       />
     )
