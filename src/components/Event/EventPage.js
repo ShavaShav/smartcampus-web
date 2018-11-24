@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Comment, Container, Form, Header, Icon, Grid, List, Image } from 'semantic-ui-react';
+import { Button, Comment, Container, Form, Header, Icon, Grid, List, Image, Loader } from 'semantic-ui-react';
 import moment from 'moment';
 import AttendButton from '../Buttons/AttendButton';
 import CommentButton from '../Buttons/CommentButton';
@@ -143,7 +143,7 @@ class EventPage extends Component {
         </Grid>
       )
     } else {
-      return <Container>Waiting for event to load...</Container>
+      return <Loader active inline='centered'>Loading Event</Loader>
     }
   }
 

@@ -85,6 +85,8 @@ function currentUser(state = null, action) {
 // Sets the current event (used by EventPage)
 function currentEvent(state = null, action) {
   switch (action.type) {
+    case `${FETCH_EVENT}_PENDING`:
+      return null; // Reset current event while fetching
     case `${FETCH_EVENT}_FULFILLED`:
     case `${LIKE_EVENT}_FULFILLED`:
     case `${UNLIKE_EVENT}_FULFILLED`:
