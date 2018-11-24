@@ -96,11 +96,11 @@ class EventPage extends Component {
             <Grid.Column width={10}>
               <Header as='h1' dividing>{event.title}</Header>
               <p>
-                <small>Posted by </small> 
-                <Image avatar src={event.author.picture}/> 
+                <small>Posted by</small> 
+                <Image avatar style={{marginLeft: '7px'}} src={event.author.picture}/> 
                 {event.author.name}
               </p>
-              <p>{event.body}</p>
+              <p style={{whiteSpace: 'pre-line'}}>{event.body}</p>
             </Grid.Column>
             <Grid.Column width={6} className='side-event-page'>
               <Grid.Row>
