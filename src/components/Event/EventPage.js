@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Comment, Container, Form, Header, Icon } from 'semantic-ui-react';
+import { Button, Comment, Container, Form, Header, Icon, Grid, List, Image } from 'semantic-ui-react';
 import moment from 'moment';
+import AttendButton from '../Buttons/AttendButton';
+import CommentButton from '../Buttons/CommentButton';
+import LikeButton from '../Buttons/LikeButton';
 
 import { fetchEvent, commentEvent, commentEventUpdate, deleteComment } from '../../actions';
 
@@ -45,6 +48,21 @@ class EventPage extends Component {
     }
   }
 
+  renderAttendees() {
+    return (
+      <List relaxed horizontal style={{maxHeight: '250px', overflowY: 'auto'}}>
+        { this.props.currentEvent.attendees.map(attendee => (
+          <List.Item>
+            <Image avatar src={attendee.picture} />
+            <List.Content>
+              <List.Header>{attendee.name}</List.Header>
+            </List.Content>
+          </List.Item>
+        ))}
+      </List>
+    )
+  }
+
   renderComments() {
     return (
       <div>
@@ -69,29 +87,60 @@ class EventPage extends Component {
 
   renderEvent() {
     if (this.props.currentEvent) {
-	const eventMoment = moment(this.props.currentEvent.time);
-	
+      const event = this.props.currentEvent;
+      const eventMoment = moment(event.time);
+      
       return (
-        <div>
-          <Container style={{height: '75%'}}>
-            {/* We'll put the event details (title, image, description etc) here. Making 75% height for now */}
-            <div><h1>{this.props.currentEvent.title}</h1> posted by<small style={{ color:'gray'}}> {this.props.currentEvent.author.name}</small></div><br/>
-            <div><p>{this.props.currentEvent.body}</p>
-              <p>This event will take place on <b>{ eventMoment.format('dddd, MMMM DD, YYYY, h:mm a')}</b> in the <b>{this.props.currentEvent.location}.</b></p>
-            </div><br/>
-          </Container>
-          <Comment.Group>
-            <Header as='h3' dividing>
-              Comments
+        <Grid stackable>
+          <Grid.Row>
+            <Grid.Column width={10}>
+              <Header as='h1' dividing>{event.title}</Header>
+              <p>
+                <small>Posted by </small> 
+                <Image avatar src={event.author.picture}/> 
+                {event.author.name}
+              </p>
+              <p>{event.body}</p>
+            </Grid.Column>
+            <Grid.Column width={6} className='side-event-page'>
+              <Grid.Row>
+                <AttendButton event={event}/>
+                <LikeButton event={event}/>
+                <CommentButton event={event}/>
+              </Grid.Row>
+              <Grid.Row>
+                <Header as='h3' dividing>When?</Header>
+                <p>{eventMoment.format('dddd, MMMM DD, YYYY, h:mm a')}</p>
+              </Grid.Row>
+              <Grid.Row>
+                <Header as='h3' dividing>Where?</Header>
+                <p>{event.location}</p>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Header as='h3' dividing className='full-width'>
+              Attendees ({event.attendees.length})
             </Header>
-            { this.renderComments() }
-
-            <Form reply onSubmit={this.handleCommentSubmit}>
-              <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
-              <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
-            </Form>
-          </Comment.Group>
-        </div>
+            <Container>
+              { this.renderAttendees() }
+            </Container>
+          </Grid.Row>
+          <Grid.Row>
+            <Header as='h3' dividing className='full-width'>
+              Comments ({event.comments.length})
+            </Header>
+            <Container className='full-width'>
+              <Comment.Group>
+                { this.renderComments() }
+                <Form reply onSubmit={this.handleCommentSubmit}>
+                  <Form.TextArea onChange={this.handleCommentChange} value={this.props.currentEventComment}/>
+                  <Button id="body" content='Add Comment' labelPosition='left' icon='edit' primary />
+                </Form>
+              </Comment.Group>
+            </Container>
+          </Grid.Row>
+        </Grid>
       )
     } else {
       return <Container>Waiting for event to load...</Container>
