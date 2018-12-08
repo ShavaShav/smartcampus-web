@@ -36,5 +36,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!-- Ensure google user is signed out to prevent auto-login -->
+    <script src="http://apis.google.com/js/platform.js?onload=onLoad" async defer>
+      function onLoad() {
+        gapi.load('auth2', function() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                auth2.disconnect();
+            });
+        });
+      }
+    </script>
   </body>
 </html>
